@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script src="./lib/socket.io.js"></script>
+<script src="./lib/firebase2.0.6.js"></script>
+
+<script src="./lib/jquery-1.11.1.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-63248805-7', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+
+
+
+
+
+
+
+<body>
+
+<nav class="blue lighten-5">
+
+  <ul id="goToClass" class="left hide-on-med-and-down blue" >
+    <li><a href="#!">Class</a></li>
+  </ul>
+
+</nav>
+
+<script>
+
+$(document).ready(function(){
+  $("#goToClass").click(function(){
+    window.location.href="/class";
+  })
+})
+
+
+</script>
+
+
+
+
+    <div id="tutorId" style="display:none"><%= tutorId %></div>
+    <p id="reminder">Dear there, please tell us your user name here</p>
+    <div id="tutorName">
+      <p contenteditable='true'><%= tutorName%></p>
+      <button>Update Tutorname</button>
+    </div>
+    <br>
+<!--     <div id="list">
+      <div>Here are some of the students online</div>
+      <button id="refresh">refresh</button>
+      <div id ="studentList"></div>
+    </div>
+ -->
+<button id="logout">logout</button>
+<br>
+
+<div id="howTo">
+  <div>
+    . Please use only Chrome browser.
+    <br>
+    <div>Tips for being a good tutor</div>
+    <h1>Be the interviewer</h1>
+    <li>You are curious about your student</li>
+    <h3>Watch this guy's Enthusiasm</h2>
+    1.
+    <li><a href="https://www.youtube.com/watch?v=w0Vvl_ByCXM&list=RDM6Oxl5dAnR0&index=17">A link to an enthusiastic interview</a></li>
+    2.
+    <li><a href="https://www.youtube.com/watch?v=M6Oxl5dAnR0&list=RDM6Oxl5dAnR0#t=16">another guy who's loaded with passion</a></li>
+  </div>
+</div>
+
+
+
+<script>
+$(document).ready(function(){
+
+    var socket = io();
+    var tutorId = $("#tutorId").html();
+    tutorName = $("#tutorName").find("p").html();
+    localStorage.tutorId=tutorId;
+    localStorage.tutorName=tutorName;
+    var userId="";
+    localStorage.userId="";
+    var Fire = new Firebase("https://langtimedev.firebaseio.com/")
+    
+    // var Fire = new Firebase("https://langtime002.firebaseio.com")
+    nameCheck();
+
+    window.onbeforeunload = function() {
+      socket.emit("notReady",["readyTutors",tutorId])
+
+      // Fire.child("readyTutors").once("value",function(snapshot){
+      //   snapshot.forEach(function(snap){
+      //     if(snap.val()==tutorId){
+      //       Fire.child("readyTutors").child(snap.key()).remove();
+      //     }})})
+
+    };
+
+    $("#tutorName").find('button').click(function(){
+      var tutorName = $(this).siblings('p').html();
+      socket.emit('updateTutorName',[tutorId,tutorName]);
+      nameCheck();
+    })
+
+
+    //===== signal readiness, show a list of all online students
+
+
+    Fire.child("readyTutors").push({tutorId:tutorId,tutorName:tutorName})
+    // $("#refresh").click(function(){
+    //   Fire.child("studentList").once("value",function(snapshot){
+    //   document.getElementById("studentList").innerHTML = "";
+    //   snapshot.forEach(function(snap){
+    //     var line = "<h3 id='"+snap.val()+"'>"+ snap.val()+"</h3>";
+    //     document.getElementById("studentList").innerHTML += line;
+    //     })
+    //   })
+    // })
+
+
+
+  //====== wait and start
+    socket.on("start"+tutorId,function(command){
+      if(command[0]=="fromStudent"){
+        if(confirm("A student is requesting a session!")){
+          localStorage.userId=command[1];
+          socket.emit("start",["fromTutor",command[1]])
+          window.location.href="/tutoring";
+        }
+      }
+    })
+
+
+
+    $("#logout").click(function(){
+      window.location.href="/logout";
+    })
+
+
+})
+
+
+
+    function nameCheck(){
+      var shw = $("#tutorName").find("p").html();
+      if(!shw||shw==null||shw==undefined){
+        $("#reminder").show();
+      }else{
+        $("#reminder").hide();
+      }
+    }
+
+
+
+
+
+
+  </script>
+
+
+
+
+
+
+</body>
+</html>
+
+
+
+
+

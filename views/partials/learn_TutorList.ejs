@@ -1,0 +1,167 @@
+
+
+<div id="tutorListZone" style="display:none">
+  <div id="tutorListContainer">
+
+    <div id="tutorListControl">
+
+      <ul>
+        <li id="refresh">
+          <a href="#">Refresh List</a>
+        </li>
+        <li id="start">
+          <a href="#">Start Session</a>
+        </li>
+      </ul>
+
+    </div>
+    
+    <div id="tutorListContent">
+      <h4><strong>You have <span id="minutes" class="text-accent">0</span> Minutes Remaining</strong></h4>
+      <div id="tutorList" >
+        <ul>
+          <!-- <li id="tutor[0]"><a href="#">tutor[1]</a></li> -->
+        </ul>
+      </div>
+    </div>
+    
+    <div id="tutorHolder">
+      <ul><li><a href="">Yo, looks like no one is here yet :-(</a></li></ul>
+      <ul><li><a href=""><b>Most Busy Hours:</b></a></li></ul>
+      <ul><li><a href="">Evening: 8-12pm</a></li></ul>
+      <ul><li><a href="">Eastern Time Zone (UTC)</a></li></ul>
+      <ul><li><a href="">Good luck! Or email us your questions :-)</a></li></ul>
+    </div>
+    
+  </div>
+
+  <div id="spinner"></div>
+
+</div>
+
+
+
+
+<script>
+$(document).ready(function(){
+
+
+
+
+  $('#tutorListZone').popup({
+    opacity: 1,
+    transition: '0.3s',
+    scrolllock: true,
+    onclose: function() {
+      delete localStorage.tutorId;
+      tutorId="";
+    }
+  });
+
+
+
+  $("#newSession").click(function(){
+    socket.emit("currentMinutes",[localStorage.userId,"nonLearning"]);
+    $("#tutorHolder").show();
+    $("#tutorList ul").html("")
+    $("#spinner").hide();
+    socket.emit("tutorList",userId);
+    $("#tutorListZone").popup("show");
+  })
+
+    
+  socket.on("currentMinutes"+localStorage.userId,function(min){
+    $("#minutes").html(min);
+  })
+
+
+
+  socket.on("tutorList"+userId,function(tutor){
+    $("#tutorHolder").hide();
+    var line='<li id='+tutor[0]+'><a href="#">'+tutor[1]+'</a></li>'
+    $("#tutorList ul").prepend(line);
+  });
+
+
+  $("#tutorList").delegate("li","click",function(){
+    localStorage.tutorId=$(this).attr('id');
+    tutorId=$(this).attr('id');
+    console.log(tutorId);
+    $(".selected").removeClass( "selected" );
+    var selectingId = document.getElementById(tutorId);
+    selectingId.className = selectingId.className + "selected";
+  })
+
+
+  $("#refresh").click(function(){
+    $("#tutorList ul").html("")
+    // document.getElementById("tutorList").innerHTML = "";
+    socket.emit("tutorList",userId);
+  })
+
+
+  $("#start").click(function(){
+    if(tutorId==""){return alert("select a tutor first")}// problem
+
+    $("#spinner").show(); // disable going back: make it not being able to close
+    socket.emit("start",["fromStudent",userId,tutorId])
+  })
+
+  socket.on("start"+userId,function(command){
+    window.location.href="/learning";
+  })
+
+
+
+})
+
+
+</script>
+
+
+<script>
+
+// == list control
+$('#tutorListControl li').bind('click', function(){
+  var me = $(this);
+  var touchElementID = Math.floor((Math.random() * 9999999999999999) + 1);
+  var parentOffset = $(me).offset(); 
+  
+  $(me).append('<span class="listControlTouch '+touchElementID+'"></span>');
+  
+  var touchElement = $(me).find('.listControlTouch.'+touchElementID);
+  var relX = event.pageX - parentOffset.left;
+  var relY = event.pageY - parentOffset.top;
+ 
+  $(touchElement).css('top', relY);
+  $(touchElement).css('left', relX);
+  
+  setTimeout(function(){
+    $(touchElement).remove();
+  },500);
+  
+});
+
+// == list
+$('#tutorList').delegate("li",'click',function(){
+  var me = $(this);
+  var touchElementID = Math.floor((Math.random() * 9999999999999999) + 1);
+  var parentOffset = $(me).offset(); 
+  // console.log("herererere");
+  $(me).append('<span class="listTouch '+touchElementID+'"></span>');
+  
+  var touchElement = $(me).find('.listTouch.'+touchElementID);
+  var relX = event.pageX - parentOffset.left;
+  var relY = event.pageY - parentOffset.top;
+ 
+  $(touchElement).css('top', relY);
+  $(touchElement).css('left', relX);
+  
+  setTimeout(function(){
+    $(touchElement).remove();
+  },500);
+
+})
+
+
+</script>

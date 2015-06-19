@@ -1,0 +1,34 @@
+<script src="./lib/annyang.min.js"></script>
+
+
+
+<script>
+onload=function(){
+  if(annyang){
+    alert("yo what's up, time to talk")
+  }
+}
+if (annyang) {
+  // Let's define our first command. First the text we expect, and then the function it should call
+
+    var commands = {
+      'hello': function() {
+        alert("yea")
+      },
+      'now *val' : function(val){
+        alert(val)
+      },
+      'alert number *val' : function(val){
+        alert(val)
+      },
+    }
+
+  // Add our commands to annyang
+  annyang.addCommands(commands);
+
+  // Start listening. You can call this here, or attach this call to an event, button, etc.
+  annyang.debug();
+  annyang.start();
+}
+
+</script>

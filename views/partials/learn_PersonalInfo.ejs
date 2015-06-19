@@ -1,0 +1,75 @@
+
+
+<div id="personalInfoZone" style="display:none">
+  <div id="personalInfoContainer">
+
+    <div id="personalInfoControl">
+
+      <ul>
+        <li id="refresh">
+          <a href="#" id="personalInfoUpdate">Update</a>
+        </li>
+      </ul>
+
+    </div>
+    
+    <div id="personalInfoContent">
+      <div id="personalInfo" >
+        <ul>
+          <p>User Name:</p>
+          <p contenteditable="true"><%if(userName){%><%=userName%><%}%></p>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+$(document).ready(function(){
+  $("#personalInfoZone").popup({ 
+      opacity: 1,
+      transition: '0.3s',
+      scrolllock: true,
+      onclose: function() {
+        delete localStorage.tutorId;
+        tutorId="";
+      }
+    });
+
+  $("#updatePersonalInfo").click(function(){
+    $("#personalInfoZone").popup("show");
+  })
+  
+  $("#personalInfoUpdate").click(function(){
+    var a=$("#personalInfo p:eq(1)").html();
+    socket.emit("updateUserName",[userId,a]);
+  })
+
+})
+</script>
+
+<script>
+  
+// == list control
+$('#personalInfoControl li').bind('click', function(){
+  var me = $(this);
+  var touchElementID = Math.floor((Math.random() * 9999999999999999) + 1);
+  var parentOffset = $(me).offset(); 
+  
+  $(me).append('<span class="personalInfoTouch '+touchElementID+'"></span>');
+  
+  var touchElement = $(me).find('.personalInfoTouch.'+touchElementID);
+  var relX = event.pageX - parentOffset.left;
+  var relY = event.pageY - parentOffset.top;
+ 
+  $(touchElement).css('top', relY);
+  $(touchElement).css('left', relX);
+  
+  setTimeout(function(){
+    $(touchElement).remove();
+  },500);
+  
+});
+
+</script>

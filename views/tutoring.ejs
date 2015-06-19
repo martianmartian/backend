@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+  </title>
+
+    <script src="./lib/socket.io.js"></script>
+    <script src="./lib/jquery-1.11.1.min.js"></script>
+    <script src="./lib/latest.js"></script>
+    <script src="./lib/adapt.js"></script>
+    <script src="./lib/lay.js"></script>
+    <script src="./lib/firebase2.0.6.js"></script>
+
+    <link rel="stylesheet/less" type="text/css" href="./stylesheets/tutoring_Header.less" />
+    <link rel="stylesheet/less" type="text/css" href="./stylesheets/tutoring_Guide.less" />
+    <link rel="stylesheet/less" type="text/css" href="./stylesheets/tutoring_Gallery.less" />
+    <link rel="stylesheet/less" type="text/css" href="./stylesheets/tutoring_WebRTC.less" />
+    <link rel="stylesheet/less" type="text/css" href="./stylesheets/tutoring_ChatBox.less" />
+    <link rel="stylesheet/less" type="text/css" href="./stylesheets/tutoring_SynchUpdateCard.less" />
+
+    <script src="./lib/less.js" type="text/javascript"></script>
+
+</head>
+<body>
+
+
+
+<script>
+
+  var socket = io();
+  var tutorId = localStorage.tutorId;
+  var tutorName=localStorage.tutorName;
+  var userId=localStorage.userId;
+  
+
+$(document).ready(function(){
+  socket.emit("inSession", ["tutor",tutorId])
+
+
+  // set these to after camera connected
+  // window.onbeforeunload = function() {
+  //   return "Hi there, this page shall not be refreshed or closed while you are with a student!";
+  // }
+
+  // $(document).on("keydown", disableF5);
+  // function disableF5(e) { 
+  //   if ((e.which || e.keyCode) == 116 ) e.preventDefault(); 
+  // };
+
+
+
+})
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+<header>
+  <% include ./partials/tutoring_Header.ejs%>
+  <% include ./partials/tutoring_Guide.ejs%>
+</header>
+
+
+
+<main>
+  <% include ./partials/tutoring_Gallery.ejs%>
+  <% include ./partials/tutoring_WebRTC.ejs%>
+  <% include ./partials/tutoring_ChatBox.ejs%>
+  <% include ./partials/tutoring_SynchUpdateCard.ejs%>
+
+</main>
+
+
+
+<!--     <div id="ghostZone">
+        <div id="reminderZone">Speak a mistake about it</div>
+        <div id="curtain">
+            <li>Now, no typing or reading, but.. only SPEAK!!!</li>
+            <li>tell tutor to do it for you, e.g. taking notes, or everything !!! he/she servers</li>
+        </div>
+    </div> -->
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

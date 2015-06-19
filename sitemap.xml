@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns= "http://www.sitemaps.org/schemas/sitemap/0.9"> 
+  <url>
+    <loc>http://langtime.me</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1</priority> 
+  </url>
+  <url>
+    <loc>http://langtime.me/showcase</loc> 
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://langtime.me/comeontutors</loc> 
+    <changefreq>monthly</changefreq>
+    <priority>0.2</priority>
+  </url>
+</urlset>
+
+
+
+
+
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+
+    <image:image>
+       <image:loc>https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433873406118.gif</image:loc> 
+       <image:title>LangTime Logo</image:title>
+    </image:image>

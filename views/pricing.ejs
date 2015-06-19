@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)file:///Users/macbookpro/Desktop/langtime/views/pricing.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+
+<link href="./stylesheets/pricing.css" rel="stylesheet">
+
+    <script src="./lib/socket.io.js"></script>
+    <script src="./lib/jquery-1.11.1.min.js"></script>
+
+<style>
+body {
+    background: url("../img/back.jpg");
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+</style>
+
+ 
+</head>
+<body>
+<div class="">
+<nav class="navbar navbar-transparent" role="navigation">
+<div class="container">
+<div class="navbar-header">
+<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a href="http://langtime.me/"><img alt="LangTime" class="navbar-brand" src=""></a>
+</div>
+<div id="navbar" class="navbar-collapse collapse">
+<ul class="nav-transparent nav-underline navbar-nav navbar-left">
+ 
+
+<li>
+<a href="http://langtime.me/learn">
+Home
+</a>
+</li>
+
+
+
+
+<li><a href="#" data-toggle="modal" data-target="#contactModal">Contact</a></li>
+</ul>
+<ul class="nav-transparent navbar-nav navbar-right">
+<li role="presentation" class="dropdown">
+
+
+</ul>
+</div> 
+</div>
+</nav>
+</div>  
+
+<div class="container page-header text-center">
+<div class="row">
+<div class="col-xs-12 col-xs-offset-0 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+<div class="row">
+<div class="col-xs-12">
+<h3>Buy Lang-Time</h3>
+<h4>Practice any time</h4>
+<h4><strong>You have <span id="minutes" class="text-accent">0</span> Minutes Remaining</strong></h4>
+</div>
+</div>
+<table class="table text-left">
+<tbody><tr class="table-header">
+<th>Minutes</th>
+<th>Cost</th>
+<th></th>
+</tr>
+<tr>
+<td>20 minutes</td>
+<td> $5 USD</td>
+<td class="text-center">
+
+<!-- <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="GER52P9VYNKKE">
+<table>
+<tr><td><input type="hidden" name="on0" value="Units">Units</td></tr><tr><td><select name="os0">
+  <option value="20 minutes">20 minutes $5.00 USD</option>
+  <option value="40 minutes">40 minutes $10.00 USD</option>
+  <option value="60 minutes">60 minutes $15.00 USD</option>
+</select> </td></tr>
+</table>
+<input type="hidden" name="currency_code" value="USD">
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+</form> -->
+
+
+
+<script async="async" src="https://www.paypalobjects.com/js/external/paypal-button.min.js?merchant=3ZUMH2PD58BJC"
+    data-button="buynow" 
+    data-name="Lang-Time" 
+    data-quantity-editable="1" 
+    data-amount="5.00" 
+    data-currency="USD" 
+    data-shipping="0" 
+    data-tax="0.35" 
+    data-callback="http://langtime.me/paypalReturn"
+></script>
+
+
+<div>Note: your Paypal and LangTime email should be same</div>
+</td>
+</tr>
+
+
+</tbody></table>
+</div>
+</div>
+</div>
+
+
+<script>
+
+$(document).ready(function(){
+    var socket = io();
+    $("#submit_button").click(function(){
+      var mes={
+        name:$("#name").val(),
+        email:$("#email").val(),
+        message:$("#message").val(),
+        sub:"user report"
+      };
+      socket.emit("contactMe",mes)
+      alert('message sent')
+    })
+
+    // $("#tutorList")
+    socket.emit("currentMinutes",[localStorage.userId,"nonLearning"]);
+    socket.on("currentMinutes"+localStorage.userId,function(min){
+      $("#minutes").html(min);
+    })
+})
+
+
+
+</script>
+<style>
+#a{
+  text-align: center;
+  display: block;
+}
+#contact_form{
+  text-align: center
+}
+</style>
+
+<form id="contact_form" >
+  <div class="row">
+    <label for="name">Your name:</label><br />
+    <input id="name" class="input" name="name" type="text" value="" size="30" /><br />
+  </div>
+  <div class="row">
+    <label for="email">Your email:</label><br />
+    <input id="email" class="input" name="email" type="text" value="" size="30" /><br />
+  </div>
+  <div class="row">
+    <label for="message">Your message:</label><br />
+    <textarea id="message" class="input" name="message" rows="7" cols="30"></textarea><br />
+  </div>
+  
+  <button id="submit_button">Send email</button>
+</form>           
+
+</body></html>

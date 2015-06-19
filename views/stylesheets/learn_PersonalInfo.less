@@ -1,0 +1,109 @@
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+#personalInfoZone_background{
+  background: url("../img/back.jpg");
+}
+
+
+#personalInfoControl {
+  max-width: 20em;
+  margin: 0 auto;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+    ul{
+        text-align: center;
+        width: 200px;
+        display: inline;
+        margin: 0;
+        padding: 1em;
+        li{
+          
+            width: 100px;
+            list-style: none;
+            overflow: hidden;
+            display: inline-block;
+            position: relative;
+            background: #C1EDFD;
+            a{
+
+                padding: 1.5em;
+                display: block;
+                position: relative;
+                z-index: 2;
+                color: #134749;
+                text-decoration: none;
+                -webkit-transition: color 0.175s;
+                    transition: color 0.175s;
+            }
+            &:hover{
+                color: red;
+            }
+        }
+    
+    }
+}
+
+
+.personalInfoTouch {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20em;
+  height: 20em;
+  border-radius: 50%;
+  background: rgb(18, 131, 61);
+  margin: -10em 0 0 -10em;
+  opacity: 0;
+  -webkit-animation-duration: 0.5s;
+          animation-duration: 0.5s;
+  -webkit-animation-name: listControlTouch;
+          animation-name: listControlTouch;
+  pointer-events: none;
+}
+
+@-webkit-keyframes listControlTouch {
+  from {
+    opacity: 1;
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  to {
+    opacity: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+
+@keyframes listControlTouch {
+  from {
+    opacity: 1;
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  to {
+    opacity: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+
+
+#personalInfo{
+  ul{
+    text-align: center;
+
+    p{
+
+      background-color: white;
+      border:none;
+      outline:none;
+      border-radius: 30px;
+    } 
+  }
+}
+

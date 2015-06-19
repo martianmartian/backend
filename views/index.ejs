@@ -1,0 +1,231 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>LangTime | Spoken English Training</title>
+<meta name="description" content="Fastest Spoken English learning. | Fun storytelling and interesting conversation with a private tutor, creating your own 'customized' learning material">
+
+<!-- words to use later: Intense  -->
+
+<meta name="robots" content="index, follow">
+<meta name="viewport" content="initial-scale=1.0">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material-fullpalette.min.css">
+<link rel="stylesheet" href="./stylesheets/index.css">
+<script src="./lib/lay.js"></script>
+<script src="./lib/socket.io.js"></script>
+
+<script type="text/javascript">
+(function() {
+var hm = document.createElement('script'); hm.type ='text/javascript'; hm.async = true;
+hm.src = ('++u-heatmap-it+log-js').replace(/[+]/g,'/').replace(/-/g,'.');
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63248805-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
+
+<body>
+
+    <div class="row" role="banner" id="LT-header">
+      <div class="col-sm-6" id="LT-header-1">
+          <a href="javascript:void(0)" ><img src="https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433873406118.gif">Spoken English Training</a>
+          <p></p>
+      </div>
+      <div class="col-sm-6" id="LT-header-2">
+        Already have an account? 
+        <a class="btn btn-success" href="/login">Log in</a>
+      </div>
+    </div>
+
+
+    <div class="bs-component">
+        <div class="navbar navbar-inverse">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/demo">Demo<div class="ripple-wrapper"></div></a>
+            </div>
+            <div class="navbar-collapse collapse navbar-responsive-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="/showcase">Showcase</a></li>
+                    <li ><a href="javascript:void(0)" id="contactForm">Questions?<div class="ripple-wrapper"></div></a></li>
+                    
+                </ul>
+                
+                <ul class="nav navbar-nav navbar-right">
+                    <li style="display:none"><a href="javascript:void(0)">Link<div class="ripple-wrapper"></div></a></li>
+                    <li class="dropdown" style="display:none">
+                        <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Dropdown <b class="caret"></b><div class="ripple-wrapper"></div></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:void(0)">Action</a></li>
+                            <li><a href="javascript:void(0)">Another action</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div  class="col-sm-4" id="words">
+            <h1>
+              Just fun to talk
+            </h1>
+            <h4>Wanna talk fluent in English?</h4>
+            <p>
+              Come and make Mistakes with us! Our tutors will take you on a journey of interesting stories and enjoyable conversations, through which you will learn the art of mastering...
+            </p>
+            <a class="btn btn-inverse" href="/signup">Sign up
+            now</a>
+            
+            <h1>
+              Other students' work
+            </h1>
+            <a class="btn btn-inverse" href="/showcase">Show Case
+            </a>
+
+        </div>
+
+        <div class="col-sm-7" id="img">
+            <p class="vignetteMain" style="background-image:url(https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433890736643.png)"></p>
+            <!-- <div><p>ddd</p></div> -->
+        </div>
+    </div>
+
+
+<div class="row">
+
+
+  <div class="list col-sm-3">
+    <li class="list__item">
+      <figure class="list__item__inner">
+        <a class="divLink" href="#">
+        <p class="vignette" style="background-image:url(https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433892618445.jpg)"></p>
+        <div class="titlebox">Any Way</div>
+        <div class="infobox">Customerize your own learning material</div>
+       </a>
+     </figure>
+    </li>
+  </div>
+
+
+  <div class="list col-sm-3">
+    <li class="list__item">
+      <figure class="list__item__inner">
+        <a class="divLink" href="#">
+        <p class="vignette" style="background-image:url(https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433892625642.jpg)"></p>
+        <div class="titlebox">Any Time</div>
+        <div class="infobox">Talk to a tutor whenever you feel like to.</div>
+       </a>
+     </figure>
+    </li>
+  </div>
+
+  <div class="list col-sm-3">
+    <li class="list__item">
+      <figure class="list__item__inner">
+        <a class="divLink" href="#">
+        <p class="vignette" style="background-image:url(https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433892622062.jpg)"></p>
+        <div class="titlebox">Any Where</div>
+        <div class="infobox">Whereever you are, we have a tutor for you</div>
+       </a>
+     </figure>
+    </li>
+  </div>
+
+</div>
+
+
+<style>
+
+#contact_form{
+  text-align: center
+}
+
+</style>
+
+<form id="contact_form" style="display:none">
+  <div class="row">
+    <label for="name">...</label><br />
+    <input placeholder="Your Name" id="name" class="input" name="name" type="text" value="" size="30" /><br />
+  </div>
+  <div class="row">
+    <label for="email">...</label><br />
+    <input placeholder="Your email" id="email" class="input" name="email" type="text" value="" size="30" /><br />
+  </div>
+  <div class="row">
+    <label for="message">...</label><br />
+    <textarea placeholder="Your question?" id="message" class="input" name="message" rows="7" cols="30"></textarea><br />
+  </div>
+  
+  <button id="submit_button">Send message</button>
+</form>           
+
+<script>
+  $(document).ready(function(){
+      var socket = io();
+      $("#submit_button").click(function(){
+        var mes={
+          name:$("#name").val(),
+          email:$("#email").val(),
+          message:$("#message").val(),
+          sub:"user question"
+        };
+        socket.emit("contactMe",mes)
+        alert('message sent')
+      })
+
+
+  })
+
+$(document).ready(function(){
+
+  $('#contact_form').popup({
+    opacity: 0.5,
+    transition: '0.3s',
+    scrolllock: true,
+    onclose: function() {
+      
+    }
+  });
+
+
+  $("#contactForm").click(function(){
+    $("#contact_form").popup("show");
+  })
+  
+})
+
+
+</script>
+
+
+
+
+    <script type="text/javascript">
+        var _mfq = _mfq || [];
+        (function () {
+        var mf = document.createElement("script"); mf.type = "text/javascript"; mf.async = true;
+        mf.src = "//cdn.mouseflow.com/projects/8d47ecfb-4cda-493a-a320-9fd428de411e.js";
+        document.getElementsByTagName("head")[0].appendChild(mf);
+      })();
+    </script>
+
+
+
+</body>
+
+</html>

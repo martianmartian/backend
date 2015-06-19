@@ -1,0 +1,47 @@
+<div id="videoControlZone">
+    <div id="remoteVideo"></div>
+    <div id="localVideo"></div>
+</div>
+
+
+  <!-- webrtc isolate this-->
+<script>
+$(document).ready(function(){
+  var webrtc = new SimpleWebRTC({
+    localVideoEl: 'localVideo',
+    remoteVideosEl: 'remoteVideo',
+    autoRequestMedia: true
+    // media:{
+    //     audio:false,
+    //     video: {
+    //       mandatory: {
+    //           maxWidth: 200,
+    //           maxHeight:200
+    //       }
+    //     }      
+    // }
+  });
+
+  webrtc.on('readyToCall', function () {
+    webrtc.joinRoom(userId+tutorId);
+    $('#remoteVideo').hover(function () {
+        $('#localVideo').slideDown("slow")
+      }, function () {
+        $('#localVideo').slideUp("slow");
+    });
+  });
+
+
+  $("#remoteVideo").bind("DOMSubtreeModified",function(){
+    if($( "#remoteVideo video" ).length){
+      setTimeout(function(){($("#localVideo").hide())},1000*10);
+    }
+    if(!$( "#remoteVideo video" ).length){
+      $("#localVideo").show();
+    }
+  })
+})
+
+
+
+</script>

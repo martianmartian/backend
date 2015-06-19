@@ -1,0 +1,83 @@
+
+
+<div class="headerContainer">
+    <nav>
+        <div class="navToggle">
+          <div class="icon-left"></div>
+          <div class="icon-right"></div>
+        </div>
+        <h2><b>LangTime</b></h2>
+        <ul>
+          <!-- <li><a href="#" id="logout">Logout </a></li> -->
+        </ul>
+        <div class="headerRight">
+          <h3 class="secondRight" ><a href="#" ><span id="minutes">0</span> min left</a></h3>
+          <h3 class="firstRight" id="goBack"><a href="#" >Session End</a></h3>
+        </div>
+
+    </nav>
+</div>
+
+
+<script>
+$(document).ready(function(){
+
+  socket.on("currentMinutes"+userId,function(min){
+    $("#minutes").html(min);
+  })
+
+  $("#goBack").click(function(){
+    if(confirm("Leaving the session?")){
+      delete localStorage.userId;
+      socket.emit("goBack",[userId,tutorId])
+      window.location.href="/tutor"
+    }
+  })
+  
+  // =====!!!!instead of forcing the "learning.ejs" to go back. simply delete his tutor information. in case session get bugged.
+
+  socket.on("goBack"+userId,function(){
+    delete localStorage.userId;
+    alert("Your student is being disconnected. Click to 'Go Back' to return to front page")
+    window.location.href="/tutor"
+  })
+
+
+
+})
+
+</script>
+
+
+
+<script>
+$(document).ready(function(){
+  //======= hover =======
+  $(".navToggle,nav h2,nav ul").hover (function(){
+    $("nav").toggleClass("open");
+  });
+
+  //======= touch =======
+
+  $('h3').bind('touchstart mousedown', function(){
+    var me = $(this);
+    var touchElementID = Math.floor((Math.random() * 9999999999999999) + 1);
+    var parentOffset = $(me).offset(); 
+    
+    $(me).append('<span class="touch '+touchElementID+'"></span>');
+    
+    var touchElement = $(me).find('.touch.'+touchElementID);
+    var relX = event.pageX - parentOffset.left;
+    var relY = event.pageY - parentOffset.top;
+   
+    $(touchElement).css('top', relY);
+    $(touchElement).css('left', relX);
+    
+    setTimeout(function(){
+      $(touchElement).remove();
+    },500);
+    
+  });
+})
+
+</script>

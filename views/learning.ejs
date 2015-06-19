@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Learning</title>
+  <script src="./lib/socket.io.js"></script>
+  <script src="./lib/jquery-1.11.1.min.js"></script>
+  <script src="./lib/latest.js"></script>
+  <script src="./lib/adapt.js"></script>
+  <script src="./lib/ua-parser.min.js"></script>
+  <script src="./lib/lay.js"></script>
+  <link rel="stylesheet/less" type="text/css" href="./stylesheets/learning_Header.less" />
+  <link rel="stylesheet/less" type="text/css" href="./stylesheets/learning_Guide.less" />
+  <link rel="stylesheet/less" type="text/css" href="./stylesheets/learning_WebRTC.less" />
+  <link rel="stylesheet/less" type="text/css" href="./stylesheets/learning_Gallery.less" />
+  <link rel="stylesheet/less" type="text/css" href="./stylesheets/learning_ChatBox.less" />
+  <link rel="stylesheet/less" type="text/css" href="./stylesheets/learning_SynchUpdateCard.less" />
+
+  <script src="./lib/less.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+<script>
+
+  
+var socket = io();
+var tutorId = localStorage.tutorId;
+var userId = localStorage.userId;
+var userName = localStorage.userName;
+window.onbeforeunload = function() {
+  //delete localStorage.tutorId;
+};
+// terrible if refresh. use time stamp to prevent this, instead of deleting tutorId
+
+
+// function disableF5(e) { if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) e.preventDefault(); };
+
+// $(document).ready(function(){
+//   $(document).on("keydown", disableF5);
+// });
+
+socket.emit("inSession", ["student",userId]);
+
+</script>
+
+<header>
+  <% include ./partials/learning_Header.ejs%>
+  <% include ./partials/learning_Guide.ejs%>
+
+</header>
+
+
+<main>
+  <% include ./partials/learning_WebRTC.ejs%>
+  <% include ./partials/learning_Gallery.ejs%>
+  <% include ./partials/learning_ChatBox.ejs%>
+  <% include ./partials/learning_SynchUpdateCard.ejs%>
+
+</main>
+
+
+</body>
+
+</html>

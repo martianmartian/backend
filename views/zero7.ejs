@@ -1,0 +1,128 @@
+    <script src="./lib/jquery-1.11.1.min.js"></script>
+    <script src="./lib/firebase2.0.6.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css">
+
+<!-- //chat box -->
+
+<script>
+    var Fire = new Firebase("https://langtimechat.firebaseio.com/")
+    
+
+  
+</script>
+
+
+<script src="./lib/jquery-1.11.1.min.js"></script>
+<script src="./lib/handlebars-v3.0.3.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
+  
+
+<style>
+#langtimechatButton{
+  z-index: 2147483000;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  visibility: hidden;
+  -webkit-transform: translateZ(0);
+}
+</style>
+
+<div class="" id="langtimechatButton">
+  <a href="#">
+    <i class="medium mdi-communication-forum">
+    </i>
+  </a>
+</div>
+
+
+
+<script>
+  
+  // Initialize collapse button
+  $(".button-collapse").sideNav();
+  // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+  //$('.collapsible').collapsible();
+        
+
+  $('.button-collapse').sideNav({
+    menuWidth: 300, // Default is 240
+    edge: 'right', // Choose the horizontal origin
+    closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+  });
+      
+</script>
+
+
+
+
+<div id="langtimechat" class="blue-text text-darken-2">
+  
+  <div class="row" id="langtimechatinput">
+    <div class="input-field col s12">
+      <input placeholder="send message here" id="userMessage" type="text" class="validate">
+      <label for="userMessage">Type</label>
+    </div>
+  </div>
+
+  <div id="langtimeMessages" >
+
+        <div class="row card-panel">
+          <div class="col s10">
+            <span class="blue-text text-darken-2">{{text}}</span>        
+          </div>
+          <div class="col s2">
+            <p>Name</p>
+          </div>
+        </div>
+
+  </div>
+
+
+</div>
+
+<script id="studentChat" type="text/x-handlebars-template">
+
+        <div class="row card-panel">
+          <div class="col s10">
+            <span class="blue-text text-darken-2">{{text}}</span>        
+          </div>
+          <div class="col s2">
+            <img class="circle responsive-img" src="https://static.intercomcdn.com/avatars/91391/square_128/10897876_10155136234045389_1340524001569769094_n.jpg?1432922128" alt="">
+          </div>
+        </div>
+
+</script>
+<script id="adminChat" type="text/x-handlebars-template">
+        <div class="row card-panel">
+          <div class="col s2">
+            <img class="circle responsive-img" src="https://static.intercomcdn.com/avatars/91391/square_128/10897876_10155136234045389_1340524001569769094_n.jpg?1432922128" alt="">
+          </div>
+          <div class="col s10">
+            <span class="blue-text text-darken-2">{{text}}</span>        
+          </div>
+        </div>
+</script>
+
+<script>
+
+  var studentSource   = $("#studentChat").html();
+  var studentTemplate = Handlebars.compile(studentSource);
+  var studentMessage  = {
+    text : "He low"
+  };
+  $('#langtimeMessages').append(studentTemplate(studentMessage));
+
+  var adminSource = $("#adminChat").html();
+  var adminTemplate= Handlebars.compile(adminSource)
+  var adminMessage={
+    text:"yo, what up"
+  }
+  $('#langtimeMessages').append(adminTemplate(adminMessage));
+
+</script>

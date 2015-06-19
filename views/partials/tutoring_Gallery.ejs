@@ -1,0 +1,158 @@
+
+<div class="cardControlZone">
+  <div id="updateCard" class="updateCard">
+
+      <div id="updateCardControl">
+        <button id="editCard">Edit</button>
+        <button id="update">update</button>
+        <button id="share">Share with student</button>
+      </div>
+
+  </div>
+
+  <div id="galleryContainer">
+      <div id="gallery"></div>
+      <div id="loadMore"><p>Load More Cards</p></div>
+
+  </div>
+</div>
+<script>
+
+
+
+var smallestCard=Date.now();
+
+$(document).ready(function(){
+
+
+    $("#loadMore").click(function(){
+      socket.emit("sixSmallerCards",[userId,smallestCard,tutorId])
+    });
+    $("#loadMore").trigger("click");
+
+    socket.on("sixSmallerCards"+tutorId,function(cards){
+      displayCards(cards)
+    })
+    
+  })
+
+
+$(document).ready(function(){
+
+
+  $( "#gallery" ).delegate( ".galleryCard", "click", function() {
+    event.preventDefault();
+    $("#updateCard").find(".galleryCard").remove();
+    $(this).clone().appendTo($("#updateCard"));
+    $("#editCard").show();
+    $("#update").hide();
+    $('#updateCard').popup({
+      opacity: 0.8,
+      transition: '0.3s',
+      scrolllock: true
+    });
+    $("#updateCard").popup('show');
+  });
+
+
+  $('#updateCard').popup({
+    opacity: 1,
+    transition: '0.3s',
+    scrolllock: true
+  })
+
+
+
+  $("#editCard").click(function(){
+    $("#updateCard").find("p").attr("contenteditable","true")
+    $('#update').show();
+    $("#editCard").hide();
+  })
+
+
+
+
+
+  $("#update").click(function(){
+    var updateInfo = {
+      _id:$("#updateCard").find(".galleryCard").attr("id"),
+      keyWord0:$("#updateCard").find(".keyWord0").html(),
+      keyWord1:$("#updateCard").find(".keyWord1").html(),
+      keyWord2:$("#updateCard").find(".keyWord2").html(),
+      note0:$("#updateCard").find('.note0').html(),
+      note1:$("#updateCard").find('.note1').html(),
+      note2:$("#updateCard").find('.note2').html()
+    }
+
+    socket.emit("updateCard",updateInfo);
+    $("#gallery>#"+updateInfo._id).find(".keyWord0").html(updateInfo.keyWord0);
+    $("#gallery>#"+updateInfo._id).find(".keyWord1").html(updateInfo.keyWord1);
+    $("#gallery>#"+updateInfo._id).find(".keyWord2").html(updateInfo.keyWord2);
+    $("#gallery>#"+updateInfo._id).find(".note0").html(updateInfo.note0);
+    $("#gallery>#"+updateInfo._id).find(".note1").html(updateInfo.note1);
+    $("#gallery>#"+updateInfo._id).find(".note2").html(updateInfo.note2);
+
+    $('#update').hide();
+    $('#editCard').show();
+    $("#updateCard").find("p").attr("contenteditable","false")
+  })
+
+
+})
+ 
+
+
+
+  function displayCards(cards){
+    if(cards.length){
+        for(var key in cards){
+          var card = cards[key];
+          if(card.createdAt<smallestCard){smallestCard=card.createdAt; console.log(smallestCard)};
+          var element = cardGenerator(card);
+          $("#gallery").append(element)
+        };
+    }else{
+        var card = cards;
+        var element = cardGenerator(card);
+        $("#gallery").append(element)
+    }
+  }
+
+  function displayNewCards(cards){
+    if(cards.length){
+        for(var key in cards){
+          var card = cards[key];
+          if(card.createdAt<smallestCard){smallestCard=card.createdAt; console.log(smallestCard)};
+          var element = cardGenerator(card);
+          $("#gallery").prepend(element)
+        };
+    }else{
+        var card = cards;
+        var element = cardGenerator(card);
+        $("#gallery").prepend(element)
+    }
+  }
+
+  function cardGenerator(card){
+      return element = '<div id='+card._id+' class="galleryCard">'+
+                  '<img src="'+card.imageUrl+'">'+
+                  '<div class="overlay">'+
+                    '<div class="overlayContent galleryKeyWord"><h4>First Key Word:</h4>'+
+                    '<p class="keyWord0">'+card.keyWord0+'</p></div>'+
+                    '<div class="overlayContent galleryKeyWord"><h4>Second Key Word</h4>'+
+                    '<p class="keyWord1">'+card.keyWord1+'</p></div>'+
+                    '<div class="overlayContent galleryKeyWord"><h4>Third Key Word</h4>'+
+                    '<p class="keyWord2">'+card.keyWord2+'</p></div>'+
+                    '<div class="overlayContent galleryNote"><h4>First Note</h4>'+
+                    '<p class="note0">'+card.note0+'</p></div>'+
+                    '<div class="overlayContent galleryNote"><h4>Second Note</h4>'+
+                    '<p class="note1">'+card.note1+'</p></div>'+
+                    '<div class="overlayContent galleryNote"><h4>Third Note</h4>'+
+                    '<p class="note2">'+card.note2+'</p></div></div>'+
+              '</div>';
+  }
+
+
+
+</script>
+

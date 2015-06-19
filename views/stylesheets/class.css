@@ -1,0 +1,29 @@
+
+.m2{
+
+  padding-right: 0;
+}
+.m5{
+  padding-left: 0;
+  padding-top: 3px;
+  padding-bottom: 3px
+}
+#arrow{
+  height:100%;
+}
+#avatar img{
+  margin-left: -70%;
+  margin-right: -48%;
+  z-index: 10000;
+}
+
+#div1 {
+  height:300px;padding:10px;
+}
+#div2 {
+  height:360px;padding:10px;
+}
+
+#everyone{
+  padding-top: 20px;
+}

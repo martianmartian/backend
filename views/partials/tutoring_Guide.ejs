@@ -1,0 +1,31 @@
+
+
+
+  <div id="guideZone">
+      
+
+      <div id="guideCamera">
+        <div id="guideCameraArrow">&#10548;</div>
+        <div id="guideCameraWords">
+          Enable camera then refresh page: 
+          <br><div><a href="#">Got it</a></div>
+        </div>
+        
+      </div> 
+
+
+  </div>
+
+<script>
+  $(document).ready(function(){
+    setInterval(function(){
+      if($( "#localVideo video" ).length){
+        $("#guideCamera").hide();
+      }
+      if(!$( "#localVideo video" ).length){
+        $("#guideCamera").show();
+      }
+    },1000*3)  
+  })
+
+</script>

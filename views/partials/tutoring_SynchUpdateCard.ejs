@@ -1,0 +1,79 @@
+
+<div id="synchUpdateCard" class="updateCard">
+
+    <div id="synchUpdateCardControl">
+      <button class="editCard">Edit</button>
+      <button class="updateCard">update</button>
+    </div>
+
+</div>
+
+<script>
+$(document).ready(function(){
+
+  $("#share").click(function(){
+    event.preventDefault();
+    var w = $("#updateCard").find(".galleryCard").attr('id');
+    socket.emit("synchCard",[userId,tutorId,w]);
+  })
+
+  $("#synchUpdateCardControl").find(".editCard").hide()
+  $("#synchUpdateCardControl").find(".updateCard").hide()
+
+  socket.on("synchCard"+userId,function(card){
+    console.log(card)
+    displaySynchCards(card);
+    $("#synchUpdateCardControl").find(".editCard").show()
+  })
+
+
+  $("#synchUpdateCardControl .editCard").click(function(){
+    $("#synchUpdateCard").find("p").attr("contenteditable","true")
+    $("#synchUpdateCardControl .updateCard").show();
+    enableRealTimeNote();
+  })
+
+  $("#synchUpdateCardControl .updateCard").click(function(){
+    var updateInfo = {
+      _id:$("#synchUpdateCard .galleryCard").attr("id"),
+      tutorId:localStorage.tutorId,
+      userId:localStorage.userId,
+      keyWord0:$("#synchUpdateCard .galleryCard").find(".keyWord0").html(),
+      keyWord1:$("#synchUpdateCard .galleryCard").find(".keyWord1").html(),
+      keyWord2:$("#synchUpdateCard .galleryCard").find(".keyWord2").html(),
+      note0:$("#synchUpdateCard .galleryCard").find('.note0').html(),
+      note1:$("#synchUpdateCard .galleryCard").find('.note1').html(),
+      note2:$("#synchUpdateCard .galleryCard").find('.note2').html()
+    };
+    //console.log(updateInfo)
+    socket.emit("synchUpdateCard",updateInfo);
+    $("#synchUpdateCardControl .editCard").show()
+    $("#synchUpdateCardControl .updateCard").hide()
+  })
+
+
+
+  socket.on("synchUpdateCard"+tutorId,function(updateInfo){
+    
+    $("#galleryContainer .galleryCard").find(".keyWord0").html(updateInfo.keyWord0);
+    $("#galleryContainer .galleryCard").find(".keyWord1").html(updateInfo.keyWord1);
+    $("#galleryContainer .galleryCard").find(".keyWord2").html(updateInfo.keyWord2);
+    $("#galleryContainer .galleryCard").find(".note0").html(updateInfo.note0);
+    $("#galleryContainer .galleryCard").find(".note1").html(updateInfo.note1);
+    $("#galleryContainer .galleryCard").find(".note2").html(updateInfo.note2);
+
+    displaySynchCards(updateInfo)
+  })
+  
+})
+
+
+
+  function displaySynchCards(cards){
+    $("#synchUpdateCard .galleryCard").remove();
+    var card = cards;
+    var element = cardGenerator(card);
+    $("#synchUpdateCard").prepend(element)
+  }
+
+</script>

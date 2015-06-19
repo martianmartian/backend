@@ -1,0 +1,259 @@
+<head>
+<script src="./lib/jquery-1.11.1.min.js"></script>
+<script src="./lib/socket.io.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
+<link rel="stylesheet" href="./stylesheets/class.css">
+</head>
+
+<body>
+
+
+
+<nav class="blue lighten-5">
+  
+  <ul class="left hide-on-med-and-down blue">
+    <li id="currentStory"><a href="#!" >Current Story</a></li>
+    <li id="allStories"><a href="#!" >All Stories</a></li>
+  </ul>
+
+  <ul class="right hide-on-med-and-down red" >
+    <li id="leave"><a href="#!">Leave Session</a></li>
+  </ul>
+
+</nav>
+<style>
+#allStories, #oneStory{
+  display: none;  
+}
+
+</style>
+<script>
+   
+var socket = io();
+
+$(document).ready(function(){
+  $("#allStories").click(function(){
+    $("#allStories").hide();
+    $("#oneStory").hide();
+    $("#everyone").show();
+    $("#currentStory").show()
+  });
+  $("#currentStory").click(function(){
+    $("#allStories").show();
+    $("#oneStory").show();
+    $("#everyone").hide();
+    $("#currentStory").hide()
+  });
+  $("#leave").click(function(){
+    localStorage.roomNum="undefined";
+    window.location.href="/tutor"
+  });
+
+
+
+
+
+})
+
+
+</script>
+
+
+
+<div class="row" id="everyone">
+  <div class="col s12 m5 grey lighten-4 z-depth-1" >
+        <div class="col s12 m2 " >
+              <div class="card small">
+                <div style="height:20%">
+                  <a class="waves-effect waves-light btn-large green" id="arrow"><i class="mdi-navigation-arrow-back"></i></a>
+                </div>
+                <div style="height:60%" id="avatar">
+                  <img src="https://s3.amazonaws.com/langtime/54ca2c11d1afc1612871624a1434302813160.png" style="height:100%">
+                </div>
+                <div style="height:20%">
+                  <a class="waves-effect waves-light btn-large green" id="arrow"><i class="mdi-navigation-arrow-forward"></i></a>
+                </div>
+              </div>
+        </div>
+
+        <div class="col s12 m8 materialboxed">
+                <div class="card" id="topLeftCard">
+                  <div class="card-image waves-effect waves-block waves-light">
+                    <img draggable="true" ondrag="drag(event)" class="activator" id="topLeftCardId" src="https://s3.amazonaws.com/langtime/54ca2c11d1afc1612871624a1424845460689.jpg">
+                  </div>
+                  <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">Card Title <i class="mdi-image-filter-1 right"></i></span>
+                  </div>
+                </div>
+        </div>
+  </div>
+      <!-- mid session -->
+  <div class="col s12 m2 grey lighten-2" id="div1">
+    <div id="studentSelect">
+      <a class="waves-effect waves-light btn blue lighten-1 id='select1'">Student 1</a>
+      <a class="waves-effect waves-light btn blue lighten-1 id='select2'">Student 2</a>
+      <a class="waves-effect waves-light btn blue lighten-1 id='select3'">Student 3</a>
+      <a class="waves-effect waves-light btn blue lighten-1 id='select4'">Student 4</a>
+    </div>
+    <div id="tutorSelect" style="display:none">
+      <a class="waves-effect waves-light btn deep-purple lighten-2" id="tutorPower"><i class="mdi-file-cloud left"></i>Start</a>
+    </div>
+  </div>
+
+  <div class="col s12 m5 grey lighten-4 z-depth-1 right" >
+    
+      <div class="col s12 m2 right" id="m2">
+
+            <div class="card small">
+              <div style="height:20%">
+                <a class="waves-effect waves-light btn-large green" id="arrow"><i class="mdi-navigation-arrow-forward"></i></a>
+              </div>
+              <div style="height:60%" id="avatar">
+                <img src="https://s3.amazonaws.com/langtime/54ca2c11d1afc1612871624a1434302813160.png" style="height:100%">
+              </div>
+              <div style="height:20%">
+                <a class="waves-effect waves-light btn-large green" id="arrow"><i class="mdi-navigation-arrow-back"></i></a>
+              </div>
+            </div>
+      </div>
+      <div class="col s12 m8 right materialboxed">
+              <div class="card" id="topRightCard">
+                <div class="card-image waves-effect waves-block waves-light">
+                  <img class="activator" src="http://materializecss.com/images/office.jpg">
+                </div>
+                <div class="card-content">
+                  <span class="card-title activator grey-text text-darken-4">Card Title <i class="mdi-image-filter-2 right"></i></span>
+                </div>
+              </div>
+      </div>
+  </div>
+
+  <div class="col s12 m5 grey lighten-4 z-depth-1" >
+    <div class="col s12 m2 " id="m2">
+            <div class="card small">
+              <div style="height:20%">
+                <a class="waves-effect waves-light btn-large green" id="arrow"><i class="mdi-navigation-arrow-back"></i></a>
+              </div>
+              <div style="height:60%" id="avatar">
+                <img src="https://s3.amazonaws.com/langtime/54ca2c11d1afc1612871624a1434302813160.png" style="height:100%">
+              </div>
+              <div style="height:20%">
+                <a class="waves-effect waves-light btn-large green" id="arrow"><i class="mdi-navigation-arrow-forward"></i></a>
+              </div>
+            </div>
+      </div>
+      
+        <div class="col s12 m8 materialboxed">
+                <div class="card" id="bottomLeftCard">
+                  <div class="card-image waves-effect waves-block waves-light">
+                    <img class="activator" src="http://materializecss.com/images/office.jpg">
+                  </div>
+                  <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">Card Title <i class="mdi-image-filter-3 right"></i></span>
+                  </div>
+                </div>
+        </div>
+  </div>
+
+
+        <!-- mid zone -->
+  <div class="col s12 m2 grey lighten-2" id="div2">
+
+  </div>
+
+  <div class="col s12 m5 grey lighten-4 z-depth-1 right" >
+
+      <div class="col s12 m2 right" id="m2">
+            <div class="card small">
+              <div style="height:20%">
+                <a class="waves-effect waves-light btn-large green" id="arrow"><i class="mdi-navigation-arrow-forward"></i></a>
+              </div>
+              <div style="height:60%" id="avatar">
+                <img src="https://s3.amazonaws.com/langtime/54ca2c11d1afc1612871624a1434302813160.png" style="height:100%">
+              </div>
+              <div style="height:20%">
+                <a class="waves-effect waves-light btn-large green" id="arrow"><i class="mdi-navigation-arrow-back"></i></a>
+              </div>
+            </div>
+      </div>
+
+      <div class="col s12 m8 right materialboxed">
+              <div class="card" id="bottomRightCard">
+                <div class="card-image waves-effect waves-block waves-light">
+                  <img class="activator" src="http://materializecss.com/images/office.jpg">
+                </div>
+                <div class="card-content">
+                  <span class="card-title activator grey-text text-darken-4">Card Title <i class="mdi-image-filter-4 right"></i></span>
+                </div>
+              </div>
+      </div>
+
+  </div>
+
+  </div>
+
+</div>
+
+
+<script>
+ $(document).ready(function(){
+    $('.materialboxed').materialbox();
+  });
+</script>
+
+<div class="row" id="oneStory">
+  <div class="col s12 m7">
+              <div class="card" id="bottomLeftCard">
+                <div class="card-image waves-effect waves-block waves-light">
+                  <img class="activator" src="http://materializecss.com/images/office.jpg">
+                </div>
+                <div class="card-content">
+                  <span class="card-title activator grey-text text-darken-4">Card Title <i class="mdi-image-filter-1 right"></i></span>
+                </div>
+              </div>
+  </div>
+
+  <div class="col s12 m4">
+              <ul class="collapsible" data-collapsible="accordion">
+                <li>
+                  <div class="collapsible-header"><i class="mdi-image-filter-drama"></i>First</div>
+                  <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+                </li>
+                <li>
+                  <div class="collapsible-header"><i class="mdi-maps-place"></i>Second</div>
+                  <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+                </li>
+                <li>
+                  <div class="collapsible-header"><i class="mdi-social-whatshot"></i>Third</div>
+                  <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+                </li>
+              </ul>
+
+
+
+              <div id="langtimechat" class="blue-text text-darken-2">
+                
+                <div class="row" id="langtimechatinput">
+                  <div class="input-field col s12">
+                    <input placeholder="send message here" id="userMessage" type="text" class="validate">
+                    <label for="userMessage">Type</label>
+                  </div>
+                </div>
+
+                <div id="langtimeMessages" >
+                      <div class="row card-panel">
+                        <div class="col s10">
+                          <span class="blue-text text-darken-2">{{text}}</span>        
+                        </div>
+                        <div class="col s2">
+                          <p>Name</p>
+                        </div>
+                      </div>
+                </div>
+              </div>
+
+  </div>
+</div>
+
+

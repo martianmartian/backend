@@ -1,0 +1,48 @@
+
+
+<div id="chatBox">
+    <div id="chatBoxInnerContainer">
+          <div id="chatBoxInner">
+              <div id='messagesDiv'></div>
+              <input type='text' id='messageInput' placeholder='Message'>
+          </div>
+        <a href="#top" id="chatBoxBottom"></a>
+    </div>
+    <div id="chatBoxBanner"><a href="#">Toggle Chat Box</a></div>
+</div>
+
+
+<script>
+
+  socket.on("messageInput"+tutorId,function(message){
+    displayChatMessage(message.name,message.text);
+    $("#chatBoxInnerContainer").show()
+    setTimeout(function(){$("#chatBoxInnerContainer").hide()},1000*15)
+  })
+
+  $("#chatBoxBanner").click(function(){
+    $("#chatBoxInnerContainer").toggle()
+  })
+
+  $('#messageInput').keypress(function (e) {
+    message={};
+    if (e.keyCode == 13&&$('#messageInput').val()) {
+        message={
+          belongTo:userId,
+          from:tutorId,
+          to:userId,
+          name: tutorName,
+          text: $('#messageInput').val()
+        }
+      socket.emit("messageInput",message)
+      $('#messageInput').val("")
+    }
+  })
+
+
+
+  function displayChatMessage(name, text) {
+    $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
+    $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
+  };
+</script>

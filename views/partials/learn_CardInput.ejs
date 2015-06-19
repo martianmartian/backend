@@ -1,0 +1,268 @@
+
+
+    <div id="newCardZone" >
+        <!-- image -->
+        <div id="imageInputZone">
+            <div id="holder">
+                <div>What's your story?</div>
+                <small>Click, drag/drop to upload your photos</small>
+                <img src="">
+            </div>
+            <input type="file" id="files" name="file" style="display:none">
+            <div class="group">      
+              <input id="imageUrl" autocomplete="off" placeholder="Or paste image URL here, from your facebook etc" type="url">
+            </div>
+            <div id="tutorialSession">
+            </div>
+        </div>
+        
+        <!-- words -->
+        <div id="contentInputZone">
+            <div class="group">      
+              <input id="keyWord0" autocomplete="off" placeholder="some quick memo? key word?">
+              
+              <span class="highlight"></span>
+              <span class="bar"></span>
+              
+            </div>
+            <div class="group">      
+              <input id="keyWord1" autocomplete="off" placeholder="another key word?">
+              
+              <span class="highlight"></span>
+              <span class="bar"></span>
+              
+            </div>
+            <div class="group" style="display:none">      
+              <input id="keyWord2" autocomplete="off" placeholder="3rd key word? if any">
+              
+              <span class="highlight"></span>
+              <span class="bar"></span>
+              
+            </div>
+        </div>
+        
+        <!-- button -->
+        <div id="inputControlZone">
+
+            <ul>
+              <li id="startOver">
+                <a href="#">X</a>
+              </li>
+              <li id="newCard">
+                <a href="#">♥</a>
+              </li>
+            </ul>
+        </div>
+        
+    </div>
+
+
+<script>
+
+//== required setup:
+  var cardFrom = "";
+  var imageFile;
+  var reader;
+
+
+$(document).ready(function(){
+  $("#holder").click(function(){
+    $("#files").click()
+  })
+})
+
+//==== first step zone: preview
+////===============================================
+$(document).ready(function(){
+  $("#imageUrl").on("change",function(){
+    var b=$("#imageUrl").val();
+    if(b.length>=200){alert("The link you selected is too long.")}
+    if(b&&b.length<=200){
+      secondStepFrom("url");
+    }
+    $("#holder").find("img").attr("src",$("#imageUrl").val())
+  })
+})
+
+////===============================================
+$(document).ready(function(){
+  holder.ondragover = function () { this.className = 'hover'; return false; };
+  holder.ondragend = function () { this.className = ''; return false; };
+  holder.ondrop = function (e) {
+    this.className = '';
+    e.preventDefault();
+    var file = e.dataTransfer.files[0];
+    imageFile = file;
+    if(checkValid()=="invalid"){return}
+    reader = new FileReader();
+    reader.onload = function (event) {
+      secondStepFrom("drop");
+      $("#holder").find("img").attr("src",event.target.result)
+    };
+    reader.readAsDataURL(file);
+    return false;
+  };
+})
+
+////===============================================
+$(document).ready(function(){
+  $("#files").on('change',function(){
+    var x = document.getElementById ("files");
+    var file=x.files[0];
+    imageFile = file;
+    if(checkValid()=="invalid"){return}
+    preViewer = new FileReader();
+    preViewer.onload=(function(event){
+      secondStepFrom("files");
+      $("#holder").find("img").attr("src",event.target.result)
+    });
+    preViewer.readAsDataURL(file);
+  })
+})
+
+
+////========== second step zone
+
+function checkValid(){
+  var ext = imageFile.name.split('.').pop().toLowerCase();
+  if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+    $("#files").replaceWith('<input type="file" id="files" name="file">');
+    $("#newCard").attr('disabled',"true");
+    alert('invalid image type. only images please');
+    return "invalid";
+  }
+}
+
+function secondStepFrom(where){
+  cardFrom = where;
+  switch(where){
+    case "drop":
+      $("#files").hide();
+      $("#imageUrl").hide();
+      break;
+    case "url":
+      $("#imageUrl").hide();
+      $("#files").hide();
+      break;
+    case "files":
+      $("#imageUrl").hide();
+      $("#files").hide()
+      break;
+  };
+  $("#contentInputZone").show();
+  $("#inputControlZone").show();
+}
+
+////=========  third zone: upload
+
+$(document).ready(enableNewCard())
+
+function enableNewCard(){
+  $("#newCard").click(function(){
+    // alert("once")
+    $("#newCard").off("click")
+    switch(cardFrom){
+      case "url":
+        imageFromUrl();
+        break;
+      case "drop":
+        imageFromDrop_Files();
+        break;
+      case "files":
+        imageFromDrop_Files();
+        break;
+    }
+  })
+}
+
+
+
+
+function imageFromUrl(){
+  cardInfo={
+    userId:userId,
+    createdAt: Date.now(),
+    imageUrl : $("#imageUrl").val(),
+    keyWord0 : $("#keyWord0").val(),
+    keyWord1 : $("#keyWord1").val(),
+    keyWord2 : $("#keyWord2").val(),
+    note0:"notes from tutor",
+    note1:"notes from tutor",
+    note2:"notes from tutor"
+  };
+  socket.emit("newCard", cardInfo);
+}
+
+function imageFromDrop_Files(evt){
+  reader = new FileReader();
+  reader.readAsArrayBuffer(imageFile);
+
+  reader.onerror = errorHandler;
+  reader.onloadstart = function(e) {
+    console.log("onloadstart")
+  }
+  reader.onload=(function(evt){
+    var s3Extension = imageFile.name.split('.').pop();
+    var d = new Date();
+    time=d.getTime();
+    var key = userId + time+"."+s3Extension;
+    imageData={
+      body:evt.target.result,
+      contentType:s3Extension,
+      userId:userId,
+      time:time,
+      key:key
+    };
+    cardInfo={
+      userId:userId,
+      createdAt: Date.now(),
+      imageUrl : $("#imageUrl").val(),
+      keyWord0 : $("#keyWord0").val(),
+      keyWord1 : $("#keyWord1").val(),
+      keyWord2 : $("#keyWord2").val(),
+      note0:"notes from tutor",
+      note1:"notes from tutor",
+      note2:"notes from tutor"
+    };
+    // console.log(cardInfo)
+    socket.emit('data',[imageData,cardInfo]);
+  })
+}
+
+function errorHandler(evt) {
+  switch(evt.target.error.code) {
+    case evt.target.error.NOT_FOUND_ERR:
+      alert('File Not Found!');
+      break;
+    case evt.target.error.NOT_READABLE_ERR:
+      alert('File is not readable');
+      break;
+    case evt.target.error.ABORT_ERR:
+      break; // noop
+    default:
+      alert('An error occurred reading this file.');
+  };
+}
+
+////=========  startOver zone
+$(document).ready(function(){
+  $("#startOver").click(function(){
+    newRound();
+  })
+})
+
+function newRound(){
+  enableNewCard()
+  $("#imageUrl").show();
+  $("#contentInputZone").hide();
+  $("#inputControlZone").hide();
+  $("#holder").find("img").attr("src","")
+  $("#files").val('');
+  $("#imageUrl").val('');
+  $("#keyWord0").val('');
+  $("#keyWord1").val('');
+  $("#keyWord2").val('');
+}
+
+</script>
+

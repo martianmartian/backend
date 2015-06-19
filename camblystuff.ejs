@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cambly</title>
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<link href="//www.cambly.com/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="//www.cambly.com/static/css/client.20150202.css" rel="stylesheet">
+ 
+<script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-35180132-1']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</head>
+<body>
+ 
+<div id="giveUpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="giveUpModalLabel" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<h3 id="giveUpModalLabel">Tutor May Not Be Available</h3>
+</div>
+<div class="modal-body">
+<p>Baci1124 isn't available yet. Would you like to invite other tutors to practice with you?</p>
+</div>
+<div class="modal-footer">
+<button class="btn" data-dismiss="modal" aria-hidden="true">No</button>
+<button id="giveUpButton" class="btn btn-primary" data-dismiss="modal">Yes</button>
+</div>
+</div>
+ 
+<div id="chatContainer" style="bottom:40px;">
+<div id="subscriberOverlay">
+<div id="waitingMessage" style="display:none;">
+<p id="waitingForTutorMessage" class="center">Waiting for Baci1124...</p>
+<p class="center bottom">Be patient. It may take a few minutes for a conversation partner to become available.</p>
+</div>
+<div id="allowCameraMessage">
+<p>Enable your camera by pressing the "Allow" button above.</p>
+</div>
+</div>
+<div id="subscriber" class="fillParentHeight">
+</div>
+<div id="publisher"></div>
+<div id="sidepanel">
+<ul class="nav nav-tabs">
+<li><a class="tab" href="#textchat" data-toggle="tab">Text Chat</a></li>
+</ul>
+<div id="sidepanelContent" class="tab-content fillParentHeight">
+<div id="textchat" class="tab-pane active">
+<div id="firechat-wrapper"></div>
+</div>
+</div>
+</div>
+</div>
+ 
+<div id="footer" style="height:30px;">
+<div id="bottomBar" class="fillParentHeight">
+<div id="studentTimeRemaining" style="position:fixed;"></div>
+<div style="text-align:center; position:fixed; width: 100%;">
+<a class="btn btn-danger" href="https://www.cambly.com/en/student">End Conversation</a>
+</div>
+</div>
+</div>
+<script src="//www.cambly.com/static/js/jquery-1-8-2.min.js"></script>
+<script src="//www.cambly.com/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="//www.cambly.com/static/js/opentok_long_timeout.js"></script>
+<script src="//www.cambly.com/static/js/spin.min.js"></script>
+<script src="//www.cambly.com/static/js/opentok-layout.min.js"></script>
+<script src="https://cdn.firebase.com/v0/firebase.js"></script>
+<link rel="stylesheet" href="//www.cambly.com/static/firechat/dist/cambly-0.1.3/firechat-default.css"/>
+<script src="//www.cambly.com/static/firechat/dist/cambly-0.1.3/firechat-default.js"></script>
+<script type="text/javascript">
+      var subscriberContainer = document.getElementById("subscriber");
+      var publisherContainer = document.getElementById("publisher");
+
+      // Initialize the layout container and get a reference to the layout method
+      var subscriberContainer = TB.initLayoutContainer(
+          document.getElementById("subscriber"));
+      var publisherContainer = TB.initLayoutContainer(
+          document.getElementById("publisher"));
+      function layout() {
+        subscriberContainer.layout();
+        publisherContainer.layout();
+
+        $('.chat').each(function(i, e) {
+          $(e).height($('#chatContainer').height() - 76 - 38);
+        })
+      }
+      layout();
+
+      var session;
+      var apiKey;
+      var chatId;
+      var canceled;
+      var minuteCounter;
+      var giveUpOnTutorTimeout;
+
+      
+
+      // Show the spinner.
+      var opts = {
+        lines: 13, // The number of lines to draw
+        length: 7, // The length of each line
+        width: 4, // The line thickness
+        radius: 10, // The radius of the inner circle
+        corners: 1, // Corner roundness (0..1)
+        rotate: 0, // The rotation offset
+        color: '#fff', // #rgb or #rrggbb
+        speed: 1, // Rounds per second
+        trail: 60, // Afterglow percentage
+        shadow: false, // Whether to render a shadow
+        hwaccel: false, // Whether to use hardware acceleration
+        className: 'spinner', // The CSS class to assign to the spinner
+        zIndex: 0, // The z-index (defaults to 2000000000)
+        top: 'auto', // Top position relative to parent in px
+        left: 'auto' // Left position relative to parent in px
+      };
+      spinner = new Spinner(opts)
+
+      data = {userId: "543cae789c322b0007883b78", sessionToken: "zJsMbPhPmxt0kVo9lzufLiVVkRRveo+3", accountType: "student-en", notifyTutors: false, webrtc: true, device: "web"};
+
+      
+        data['tutorRequest'] = "53fb57fc4837050007f02ce2";
+      
+
+      var resizeTimeout;
+      window.onresize = function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function () {
+          layout();
+        }, 20);
+      };
+
+      // Create the text chat.
+      var chatRef = new Firebase('https://cambly.firebaseio.com/chat');
+      chatRef.auth('eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJpYXQiOiAxNDI0NTYwOTY2LCAidiI6IDAsICJkIjogeyJ1c2VySWQiOiAiNTQzY2FlNzg5YzMyMmIwMDA3ODgzYjc4In19.g-w4iL-oegjRXRCWjHODB2DgW51z99N03j2eG4g7a1w')
+      var chatUI = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
+      var chat = chatUI._chat;
+      chat.setUser('543cae789c322b0007883b78', 'iamwave007'.replace(/[\.\#\$\[\]]/, ""), function(user) {
+        // Open the chat with the tutor.
+        chat.createRoom('Chat', 'public', function(roomId) {
+          data['firebaseChatId'] = roomId;
+
+          // If the server provided an opening message, send it to the text chat.
+          // (Example: Recently learned words on duolingo)
+          
+
+          // Create the video chat.
+          $.ajax({
+            type: "POST",
+            url: "/createChatRequest",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function(data) {
+              // Connect to the opentok session.
+              apiKey = data.chat.apiKey;
+              chatId = data.chat.chatId;
+              session = TB.initSession(data.chat.sessionId);
+              session.addEventListener('sessionConnected', sessionConnectedHandler);
+              session.addEventListener('streamCreated', subscriberStreamCreatedHandler);
+              session.addEventListener('streamDestroyed', streamDestroyedHandler);
+              session.connect(data.chat.apiKey, data.chat.studentToken);
+
+              // Call endChat upon navigating away from this page.
+              canceled = true;  // We set this to false when the student connects with a tutor.
+              window.onbeforeunload = callEndChat;
+              function callEndChat()
+              {
+                $.ajax({
+                  type: "POST",
+                  async: false,
+                  url: "/endChat",
+                  data: JSON.stringify({userId: "543cae789c322b0007883b78", sessionToken: "zJsMbPhPmxt0kVo9lzufLiVVkRRveo+3", chatId: chatId, canceled: canceled}),
+                  contentType: "application/json",
+                  dataType: "json"
+                });
+              }
+            },
+            dataType: "json"
+          });
+        });
+      });
+
+      getMinutesRemaining();
+
+      function sessionConnectedHandler(event) {
+        // Put my webcam in a div
+        var publishProps = { name:"iamwave007", insertMode: "append", resolution: "1280x720"};
+        var publisher = TB.initPublisher(apiKey, 'publisher', publishProps);
+
+        // Start publishing video.
+        publisher.addEventListener('streamCreated', publisherStreamCreatedHandler);
+        session.publish(publisher);
+        layout();
+      }
+
+      function publisherStreamCreatedHandler(event) {
+        // Report the user's camera model. Only works over HTTPS.
+        var cameras = [];
+        MediaStreamTrack.getSources(function(sources) {
+          sources.forEach(function(source) {
+            if (source.label && source.kind == "video") {
+              cameras.push(source.label);
+            }
+          });
+
+          // If we just started publishing, activate the chat.
+          // Show the waiting spinner and message.
+          waitingForTutor = true;
+          var target = document.getElementById('subscriberOverlay');
+          spinner.spin(target);
+          document.getElementById('allowCameraMessage').style.display = "none";
+          document.getElementById('waitingMessage').style.display = "block";
+
+          // Activate the chat now that we're publishing video.
+          $.ajax({
+            type: "POST",
+            url: "/activateChatRequest",
+            data: JSON.stringify({userId: "543cae789c322b0007883b78", sessionToken: "zJsMbPhPmxt0kVo9lzufLiVVkRRveo+3", chatId: chatId, cameras: cameras}),
+            contentType: "application/json",
+            dataType: "json",
+            success: function(data) {
+              
+                // Prompt user to give up on tutor if they take more than 45s.
+                // TODO(kevin): Reprompt after another 45s. If they decline.
+                giveUpOnTutorTimeout = setTimeout(showGiveUpModal, 45000);
+              
+            }
+          });
+        });
+      }
+
+      function subscriberStreamCreatedHandler(event) {
+        // Clear the subscriber div.
+        clearChildren('subscriberOverlay');
+        waitingForTutor = false;
+
+        // Subscribe to the stream
+        var subscribeProps = {insertMode: "append", resolution: "1280x720"};
+        session.subscribe(event.stream, 'subscriber', subscribeProps);
+        layout();
+
+        
+          // Hide/Cancel the give-up-on-tutor modal.
+          $('#giveUpModal').modal('hide');
+          clearTimeout(giveUpOnTutorTimeout);
+        
+
+        // Mark that this student didn't cancel before a tutor showed up.
+        canceled = false;
+
+        // Start counting minutes, now that we've connected to the tutor.
+        minuteCounter = setInterval(decrementMinutes, 60000);
+
+        // Get minutes remaining from the server.
+        getMinutesRemaining();
+        setInterval(getMinutesRemaining, 5 * 1000);
+      }
+
+      function streamDestroyedHandler(event) {
+        // Stop counting minutes.
+        clearInterval(minuteCounter);
+      }
+
+      function decrementMinutes() {
+        $.ajax({
+          type: "POST",
+          url: "/decrementMinutes",
+          data: JSON.stringify({userId: "543cae789c322b0007883b78", sessionToken: "zJsMbPhPmxt0kVo9lzufLiVVkRRveo+3", chatId: chatId}),
+          contentType: "application/json",
+          dataType: "json"
+        });
+      }
+
+      function getMinutesRemaining() {
+        $.ajax({
+          type: "GET",
+          url: "/users",
+          data: {userId: "543cae789c322b0007883b78", sessionToken: "zJsMbPhPmxt0kVo9lzufLiVVkRRveo+3"},
+          cache: false,
+          success: function(data) {
+            if (data.minutes <= 0) {
+              window.location.href = "https://www.cambly.com/en/student"
+            }
+
+            if (!data.unlimited) {
+              $("#studentTimeRemaining").html('Student Time Remaining: ' + data.minutes + ' minute(s)')
+            } else {
+              $("#studentTimeRemaining").html('Student Time Remaining: Unlimited')
+            }
+          },
+          dataType: "json"
+        });
+      }
+
+      function clearChildren(id) {
+        var node = document.getElementById(id);
+        while (node.firstChild) {
+          node.removeChild(node.firstChild);
+        }
+      }
+
+      function showGiveUpModal() {
+        // Prompt user to give up on tutor if they take too long.
+        $('#giveUpModal').modal();
+        $('#giveUpButton').click(giveUpOnTutor);
+      }
+
+      function giveUpOnTutor() {
+        // Notify server to give up on tutor.
+        $.ajax({
+          type: "POST",
+          url: "/openRequestToAllTutors",
+          data: JSON.stringify({userId: "543cae789c322b0007883b78", sessionToken: "zJsMbPhPmxt0kVo9lzufLiVVkRRveo+3", chatId: chatId}),
+          contentType: "application/json",
+          dataType: "json"
+        });
+
+        // Update UI.
+        $('#waitingForTutorMessage').html('Waiting for a tutor...')
+      }
+  </script>
+</body>
+</html>

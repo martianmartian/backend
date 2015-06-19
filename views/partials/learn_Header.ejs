@@ -1,0 +1,108 @@
+
+<div class="headerContainer">
+    <nav>
+        <div class="navToggle">
+          <div class="icon-left"></div>
+          <div class="icon-right"></div>
+        </div>
+        <h2><b>LangTime</b></h2>
+        <ul>
+          <!-- <li><a  href="./pricing" target="_blank">Buy Lang-Time</a></li> -->
+          <li><a href="#" id="updatePersonalInfo">Update Information</a></li>
+          <li><a href="#" id="logout">Logout </a></li>
+        </ul>
+        <div class="headerRight">
+          <h3 class="firstRight" id="newSession"><a href="#" >Tutor Session</a></h3>
+          <h3 class="secondRight" id="newStory"><a href="#" >New Story</a></h3>
+          <h3 class="secondRight" id="stories"><a href="#" >My Stories</a></h3>
+          <h3 class="thirdRight" id="goToClass"><a href="#" >Class</a></h3>
+        </div>
+    </nav>
+</div>
+
+<script>
+$(document).ready(function(){
+  $("#goToClass").click(function(){
+    window.location.href="/class";
+  })
+})
+
+</script>
+
+<script>
+
+
+$(document).ready(function(){
+
+  localStorage.langtimeLearning==0;
+
+  $("#stories").click(function(){
+    setTimeout(function(){
+      $("#newCardZone").hide();
+      $("#viewCardZone").show();
+      $("#newStory").show();
+      $("#stories").hide();
+    },500);
+  })
+
+  $("#newStory").click(function(){
+    setTimeout(function(){
+      $("#newCardZone").show();
+      $("#viewCardZone").hide();
+      $("#newStory").hide();
+      $("#stories").show();
+    },500);
+  })
+
+
+  $('#logout').click(function() {
+    delete localStorage.userId;
+    delete localStorage.tutorId;
+    delete localStorage.langTimeUserEmail;
+    delete localStorage.langTimeUserPassword;
+    window.location.href = "/logout"
+  });
+})
+
+</script>
+
+
+
+
+
+
+
+
+<script>
+$(document).ready(function(){
+  //======= hover =======
+  $(".navToggle,nav h2,nav ul").hover (function(){
+    $("nav").toggleClass("open");
+  });
+  // $(".navToggle li").click(function(){
+  //   $("nav").hide();
+  // })
+  //======= touch =======
+
+  $('h3').bind('touchstart mousedown', function(){
+    var me = $(this);
+    var touchElementID = Math.floor((Math.random() * 9999999999999999) + 1);
+    var parentOffset = $(me).offset(); 
+    
+    $(me).append('<span class="touch '+touchElementID+'"></span>');
+    
+    var touchElement = $(me).find('.touch.'+touchElementID);
+    var relX = event.pageX - parentOffset.left;
+    var relY = event.pageY - parentOffset.top;
+   
+    $(touchElement).css('top', relY);
+    $(touchElement).css('left', relX);
+    
+    setTimeout(function(){
+      $(touchElement).remove();
+    },500);
+    
+  });
+})
+
+</script>

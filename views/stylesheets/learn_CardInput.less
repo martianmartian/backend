@@ -1,0 +1,175 @@
+
+body{
+  // text-align: center;
+}
+
+#newCardZone{
+  // @media (min-width:600px){display: none}
+  display: none;
+  width: 100%;
+  position: absolute;
+  top: 40px;
+  z-index: -1;
+
+  #imageInputZone{
+    position: absolute;
+    margin: 5px auto;
+    width: 90%;
+    left: 0;
+    right: 0;
+
+    #holder {
+      background-color: aliceblue;
+      width: 234px;
+      height: 234px;
+      margin: 33px auto;
+
+      div{
+        position: absolute;
+        top: 132px;
+        font-size: 28px;
+        font-weight: 500;
+        -webkit-user-select: none;  
+        -moz-user-select: none;     
+        -ms-user-select: none;      
+        -o-user-select: none;
+        user-select: none; 
+      }
+
+      img{
+        width:100%;
+        height:100%;
+      }
+    }
+    #files{
+      display: none;
+    }
+
+    .group input{
+      font-size: inherit;
+      display: block;
+      margin: auto;
+      width: 41%;
+      min-width: 234px;
+      top: 260px;
+      height: 42px;
+      -webkit-transition: all 0.30s ease-in-out;
+      -moz-transition: all 0.30s ease-in-out;
+      -ms-transition: all 0.30s ease-in-out;
+      -o-transition: all 0.30s ease-in-out;
+      outline: none;
+      padding: 3px 0px 3px 3px;
+      border: 1px solid #DDDDDD;
+      &:focus{
+        box-shadow: 0 0 5px rgba(164, 230, 249, 1);
+        padding: 3px 0px 3px 3px;
+        border: 5px solid rgba(164, 230, 249, 1);
+      }
+    }
+
+  }
+}
+
+
+#holder{
+  -moz-box-shadow: 0 14px 14px rgba(0, 0, 0, 0.25), 0 10px 5px rgba(0, 0, 0, 0.22);
+  -webkit-box-shadow: 0 14px 14px rgba(0, 0, 0, 0.25), 0 10px 5px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 14px 14px rgba(0, 0, 0, 0.25), 0 10px 5px rgba(0, 0, 0, 0.22);
+}
+
+
+#newCardZone{
+  #contentInputZone{
+    display: none;
+    position: absolute;
+    top: 305px;
+    width: 90%;
+    min-width: 234px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    .group{
+      margin:17px 0;
+
+      input{
+        font-size: inherit;
+        display: block;
+        margin: auto;
+        width: 41%;
+        min-width: 234px;
+        top: 260px;
+        height: 42px;
+        -webkit-transition: all 0.30s ease-in-out;
+        -moz-transition: all 0.30s ease-in-out;
+        -ms-transition: all 0.30s ease-in-out;
+        -o-transition: all 0.30s ease-in-out;
+        outline: none;
+        padding: 3px 0px 3px 3px;
+        border: 1px solid #DDDDDD;
+        &:focus{
+          box-shadow: 0 0 5px rgba(164, 230, 249, 1);
+          padding: 3px 0px 3px 3px;
+          border: 5px solid rgba(164, 230, 249, 1);
+        }
+      }
+    }
+
+
+  }
+}
+
+#newCardZone{
+  #inputControlZone{
+    display: none;
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 450px;
+    min-width: 234px;
+    width: 90%;
+
+
+    ul{
+      // margin: 0px;
+      // padding: 1em;
+      // position: absolute;
+      // width: 40%;
+      // min-width: 100px;
+      // text-align: center;
+
+      #startOver{
+        left:25%;
+        a{
+          color:rgb(108, 68, 28);
+        }
+      }
+      #newCard{
+        right:25%;
+        a{
+          color: rgb(255, 126, 0);
+        }
+      }
+
+      li{
+        overflow: hidden;
+        text-align: center;
+        border-radius: 25%;
+        list-style: none;
+        width: 100px;
+        margin: 0;
+        position: absolute;
+        background: green;
+        -moz-box-shadow: 0 10px 10px rgba(0, 0, 0, 0.19), 0 6px 3px rgba(0, 0, 0, 0.23);
+        -webkit-box-shadow: 0 10px 10px rgba(0, 0, 0, 0.19), 0 6px 3px rgba(0, 0, 0, 0.23);
+        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.19), 0 6px 3px rgba(0, 0, 0, 0.23);
+        
+        a{
+          text-decoration: none;
+          font-size: 76px;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}

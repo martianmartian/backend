@@ -1,0 +1,115 @@
+
+  <script type="text/javascript" src="http://www.skypeassets.com/i/scom/js/skype-uri.js"></script>
+  <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+
+
+
+
+<div id="SkypeButton_Call_My.User_1">
+  <script type="text/javascript">
+    Skype.ui({
+    "name": "call",
+    "element":"SkypeButton_Call_My.User_1",
+    "participants": ["jellyfish7730"], 
+    "imageSize": 32 });
+  </script> 
+</div>
+
+<div id="SkypeButton_Call_My.User_1">
+  <script type="text/javascript">
+    Skype.ui({
+    "name": "call",
+    "element":"SkypeButton_Call_My.User_1",
+    "participants": ["jellyfish7730"], 
+    "imageSize": 32
+     });
+  </script> 
+</div>
+
+<!-- personalized image -->
+ <!-- <div id="MyDiv">
+   <a onclick="Skype.tryAnalyzeSkypeUri('call', '0');" href="skype:jellyfish7730?call">
+      <img role="Button" src="https://assets.rbl.ms/435736/640x364.jpg" width="100">
+   </a>
+</div> -->
+
+
+
+
+
+
+
+<!-- detect skype install -->
+
+<!-- <a href="skype:jellyfish7730?call">Call me</a>
+ --><!-- <a href="skype:jellyfish7730?add">Add me</a> -->
+
+<script>
+  // jQuery.extend({
+  //     skype : function(failureFunction) {
+  //         var $ = jQuery;
+
+  //         if ($.browser.safari || $.browser.opera) {
+  //             return true;
+  //         } else if ($.browser.msie) {
+  //             try {
+  //                 if (new ActiveXObject("Skype.Detection")) return true;
+  //             } catch(e) { }
+  //         } else {
+  //             if (typeof(navigator.mimeTypes["application/x-skype"]) == "object") {
+  //                 return true;
+  //             }
+  //         }
+  //         $('a[href^="skype:"]').click(function() {
+  //             failureFunction();
+  //             return false;
+  //         });
+  //         return false;
+  //     }
+  // });
+
+  // jQuery(function($) {
+  //     $.skype(function() {
+  //         // this function gets called if they don't have skype.
+  //         alert("Looks like you don't have skype. Bummer.");
+  //     });
+  // });
+
+
+
+  // var matched, browser;
+
+  // jQuery.uaMatch = function( ua ) {
+  //     ua = ua.toLowerCase();
+
+  //     var match = /(chrome)[ \/]([\w.]+)/.exec( ua ) ||
+  //         /(webkit)[ \/]([\w.]+)/.exec( ua ) ||
+  //         /(opera)(?:.*version|)[ \/]([\w.]+)/.exec( ua ) ||
+  //         /(msie) ([\w.]+)/.exec( ua ) ||
+  //         ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec( ua ) ||
+  //         [];
+
+  //     return {
+  //         browser: match[ 1 ] || "",
+  //         version: match[ 2 ] || "0"
+  //     };
+  // };
+
+  // matched = jQuery.uaMatch( navigator.userAgent );
+  // browser = {};
+
+  // if ( matched.browser ) {
+  //     browser[ matched.browser ] = true;
+  //     browser.version = matched.version;
+  // }
+
+  // // Chrome is Webkit, but Webkit is also Safari.
+  // if ( browser.chrome ) {
+  //     browser.webkit = true;
+  // } else if ( browser.webkit ) {
+  //     browser.safari = true;
+  // }
+
+  // jQuery.browser = browser;
+
+</script>

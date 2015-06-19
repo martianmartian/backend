@@ -1,0 +1,198 @@
+
+
+#galleryContainer {
+    position: absolute;
+    width:95%;
+    left: 2.5%;
+    display: inline-block;
+    height:50%;
+    top: 100px;
+    z-index: -100;
+}
+
+#galleryPlaceHolder{
+    
+    background-color: aliceblue;
+    text-align: center;
+    margin: 23px;
+    padding: 60px;
+    font-size: 23px;
+
+}
+
+#delete {
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 14%;
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+
+    -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.16), 0 3px 3px rgba(0, 0, 0, 0.23);
+    -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.16), 0 3px 3px rgba(0, 0, 0, 0.23);
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.16), 0 3px 3px rgba(0, 0, 0, 0.23);
+}
+
+#finishDelete {
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 14%;
+    color: #fff;
+    background-color:#6ACCF7;
+    border-color: #53BFEF;
+
+    -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.16), 0 3px 3px rgba(0, 0, 0, 0.23);
+    -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.16), 0 3px 3px rgba(0, 0, 0, 0.23);
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.16), 0 3px 3px rgba(0, 0, 0, 0.23);
+}
+
+#gallery{
+    display: block;
+
+    .galleryCard{
+        width: 234px;
+        height: 23%;
+        transition: .2s;
+        border-radius: 5%;
+        box-shadow: 0 2px 10px 1px rgba(0, 0, 0, .60);
+        display: block;
+        float: left;
+        margin: 1.5%;
+        position: relative;
+
+        img{
+            display: block;
+            height: 150px;
+            width: 80%;
+            margin: 0 auto;
+        }
+
+    }
+}
+
+//== independent
+#galleryContainer{
+    .galleryCard{
+        &:hover .overlay{
+            display: block;
+        }
+        .overlay{
+            display: none;
+            width: 100%;
+            font-size: 25%;
+            height: 100%;
+            border-radius: 5%;
+            position: absolute;
+            padding: 5%;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.60);
+            z-index: 1000;
+            color: white;
+            text-align: center;
+
+            .galleryNote{
+                display: none;
+            }
+        }
+    }
+}
+
+.overlay h4 {
+    display: inline;
+    margin: 0;
+    padding: 10px;
+    padding-right: auto;
+    padding-left: auto;
+}
+
+.overlay p {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.overlay .overlayContent {
+  margin: 20px 0;
+}
+
+
+//=== end of independent
+
+
+
+
+
+#updateCard{
+    background: gray;
+    padding: 10px;
+    border-radius: 10px;
+    color: #ffffff;
+
+    .overlayContent p{
+        border: 1px dashed white;
+        padding: 5px;
+        min-width: 200px;
+        display: inline-block;
+    }
+    img{
+        width: 234px;
+        height:234px;
+    }
+}
+
+#updateCardControl{
+    position: absolute;
+    right: 5%;
+
+    #editCard{
+        padding: 1px 5px;
+        font-size: 12px;
+        line-height: 1.5;
+        border-radius: 14%;
+        color: #fff;
+        background-color: #6ACCF7;
+        border-color: #53BFEF;
+
+        -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.16), 0 3px 3px rgba(0, 0, 0, 0.23);
+        -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.16), 0 3px 3px rgba(0, 0, 0, 0.23);
+        box-shadow: 0 3px 3px rgba(0, 0, 0, 0.16), 0 3px 3px rgba(0, 0, 0, 0.23);
+    }
+    #update{
+        padding: 1px 5px;
+        font-size: 12px;
+        line-height: 1.5;
+        border-radius: 14%;
+        color: #fff;
+        background-color: #6ACCF7;
+        border-color: #53BFEF;
+
+        -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.16), 0 3px 3px rgba(0, 0, 0, 0.23);
+        -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.16), 0 3px 3px rgba(0, 0, 0, 0.23);
+        box-shadow: 0 3px 3px rgba(0, 0, 0, 0.16), 0 3px 3px rgba(0, 0, 0, 0.23);
+    }
+}
+
+
+
+
+#loadMore {
+    display: inline-block;
+    width: 100%;
+    background: aquamarine;
+    text-align: center;
+    margin-bottom: 5px;
+        
+    border-radius: 20% 20% 100% 100%;
+    -moz-box-shadow: 0 14px 14px rgba(0, 0, 0, 0.25), 0 10px 5px rgba(0, 0, 0, 0.22);
+    -webkit-box-shadow: 0 14px 14px rgba(0, 0, 0, 0.25), 0 10px 5px rgba(0, 0, 0, 0.22);
+    box-shadow: 0 14px 14px rgba(0, 0, 0, 0.25), 0 10px 5px rgba(0, 0, 0, 0.22);
+
+}
