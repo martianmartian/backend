@@ -1,29 +1,22 @@
-<html>
-
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
 <title>LangTime | Spoken English Training</title>
 <meta name="description" content="Fastest Spoken English learning. | Fun storytelling and interesting conversation with a private tutor, creating your own 'customized' learning material">
-
-<!-- words to use later: Intense  -->
-
 <meta name="robots" content="index, follow">
 <meta name="viewport" content="initial-scale=1.0">
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material-fullpalette.min.css">
-<link rel="stylesheet" href="./stylesheets/index.css">
-<script src="./lib/lay.js"></script>
+<script src="./lib/jquery-1.11.1.min.js"></script>
+<script src="./lib/handlebars-v3.0.3.js"></script>
 <script src="./lib/socket.io.js"></script>
+<link rel="stylesheet" href="./materialize/css/materialize.min.css">
+<script src="./materialize/js/materialize.min.js"></script>
+
 
 <script type="text/javascript">
-(function() {
-var hm = document.createElement('script'); hm.type ='text/javascript'; hm.async = true;
-hm.src = ('++u-heatmap-it+log-js').replace(/[+]/g,'/').replace(/-/g,'.');
-var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(hm, s);
-})();
+  (function() {
+  var hm = document.createElement('script'); hm.type ='text/javascript'; hm.async = true;
+  hm.src = ('++u-heatmap-it+log-js').replace(/[+]/g,'/').replace(/-/g,'.');
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(hm, s);
+  })();
 </script>
 
 
@@ -39,178 +32,608 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(hm
 </script>
 </head>
 
-<body>
 
-    <div class="row" role="banner" id="LT-header">
-      <div class="col-sm-6" id="LT-header-1">
-          <a href="javascript:void(0)" ><img src="https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433873406118.gif">Spoken English Training</a>
-          <p></p>
-      </div>
-      <div class="col-sm-6" id="LT-header-2">
-        Already have an account? 
-        <a class="btn btn-success" href="/login">Log in</a>
-      </div>
+<body class="white">
+  <nav class="white" role="navigation">
+    <div class="nav-wrapper">
+      <a id="logo-container" href="#" class="brand-logo">
+        <img src="https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433873406118.gif" alt="">
+      </a>
+      <ul class="brand-logo center hide-on-med-and-down">
+        <!-- <a href="#" class="large">Best-ish Spoken English Training</a> -->
+        <span class="large orange-text">Best-ish Spoken English Training</span>
+      </ul>
+      <style>.brand-logo a{color:orange;font-size: 30px}</style>
+      <ul class="right hide-on-med-and-down">
+        <a class="waves-effect waves-light btn-large blue">SingUp</a>
+        <a class="waves-effect waves-light btn-large green">LogIn</a> 
+      </ul>
+
+      <ul class="side-nav" id="mobile-demo">
+        <li style="color:orange">Best-ish Spoken English Training</li>
+        <li ><a href="/signup">SingUp</a></li>
+        <li ><a href="/login">LogIn</a></li>
+      </ul>
+      
+      <a href="#" data-activates="mobile-demo" class="blue button-collapse"><i class="mdi-navigation-menu"></i></a>
+
+      <script>$(document).ready(function(){$(".button-collapse").sideNav();})</script>
     </div>
+  </nav>
 
-
-    <div class="bs-component">
-        <div class="navbar navbar-inverse">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/demo">Demo<div class="ripple-wrapper"></div></a>
-            </div>
-            <div class="navbar-collapse collapse navbar-responsive-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="/showcase">Showcase</a></li>
-                    <li ><a href="javascript:void(0)" id="contactForm">Questions?<div class="ripple-wrapper"></div></a></li>
-                    
-                </ul>
-                
-                <ul class="nav navbar-nav navbar-right">
-                    <li style="display:none"><a href="javascript:void(0)">Link<div class="ripple-wrapper"></div></a></li>
-                    <li class="dropdown" style="display:none">
-                        <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Dropdown <b class="caret"></b><div class="ripple-wrapper"></div></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="javascript:void(0)">Action</a></li>
-                            <li><a href="javascript:void(0)">Another action</a></li>
-                        </ul>
-                    </li>
-                </ul>
+  <script>$(document).ready(function(){$('.parallax').parallax();})</script>
+  
+  <div id="indexBanner" class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot  valign">
+      <div class="container">
+        <br><br>
+        <h2 class="header center green-text text-lighten-2"><span class="white-text">Language from</span> <span class="red-text">Your Life</span></h2>
+        <div class="row center hide-on hide-on-small-only">
+          <h5 class="header col s12 light">A modern design for learning Speaking the most efficient way</h5>
+        </div>
+        <div class="row center" id="contentInputZone" >
+          <a class="waves-effect waves-light btn" id="upLoad">Upload</a>
+          <a class="waves-effect waves-light btn" id="class">Class</a>
+        </div>
+              <div  id="inputControlZone" class="row center" style="display:none">
+                <a class="waves-effect waves-light btn" id="newCard"><i class="mdi-file-file-upload"></i></a>
+                <a class="waves-effect waves-light btn" id="startOver"><i class="mdi-navigation-cancel"></i></a>
+              </div>
+        <div class="row center">
+            <div class="input-field col s12">
+              <input id="imageUrl" type="url" class="validate">
+              <label for="imageUrl">Image URL, Click, or Drag/Drop</label>
             </div>
         </div>
+        <br><br>
+      </div>
     </div>
-    
+    <div class="parallax" id="holder">
+      <img src="https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433901367519.png" alt="Unsplashed background img 2">
+    </div>
+    <input type="file" id="files" name="file" style="display:none">
+  </div>
+
+
+
+  <div class="section">
+
+    <!--   Icon Section   -->
     <div class="row">
-        <div  class="col-sm-4" id="words">
-            <h1>
-              Just fun to talk
-            </h1>
-            <h4>Wanna talk fluent in English?</h4>
-            <p>
-              Come and make Mistakes with us! Our tutors will take you on a journey of interesting stories and enjoyable conversations, through which you will learn the art of mastering...
-            </p>
-            <a class="btn btn-inverse" href="/signup">Sign up
-            now</a>
-            
-            <h1>
-              Other students' work
-            </h1>
-            <a class="btn btn-inverse" href="/showcase">Show Case
-            </a>
+      <div class="col s12 m4">
+        <div class="icon-block">
+          <h2 class="center brown-text"><i class="mdi-image-flash-on"></i></h2>
+          <h5 class="center">Speeds up learning</h5>
 
+          <p class="light center-align">By using your own photo, you can visualize your thoughts in just a few seconds.</p>
         </div>
+      </div>
 
-        <div class="col-sm-7" id="img">
-            <p class="vignetteMain" style="background-image:url(https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433890736643.png)"></p>
-            <!-- <div><p>ddd</p></div> -->
+      <div class="col s12 m4">
+        <div class="icon-block">
+          <h2 class="center brown-text"><i class="mdi-social-group"></i></h2>
+          <h5 class="center">Individual Experience Focused</h5>
+
+          <p class="light center-align">Using your stories as vehicles, we create a personalized curriculum just for you. </p>
         </div>
+      </div>
+
+      <div class="col s12 m4">
+        <div class="icon-block">
+          <h2 class="center brown-text"><i class="mdi-action-settings"></i></h2>
+          <h5 class="center">Easy to work with</h5>
+
+          <p class="light center-align">We have provided detailed documentation as well as specific instructions for you to practice with. </p>
+        </div>
+      </div>
     </div>
 
-
-<div class="row">
-
-
-  <div class="list col-sm-3">
-    <li class="list__item">
-      <figure class="list__item__inner">
-        <a class="divLink" href="#">
-        <p class="vignette" style="background-image:url(https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433892618445.jpg)"></p>
-        <div class="titlebox">Any Way</div>
-        <div class="infobox">Customerize your own learning material</div>
-       </a>
-     </figure>
-    </li>
-  </div>
-
-
-  <div class="list col-sm-3">
-    <li class="list__item">
-      <figure class="list__item__inner">
-        <a class="divLink" href="#">
-        <p class="vignette" style="background-image:url(https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433892625642.jpg)"></p>
-        <div class="titlebox">Any Time</div>
-        <div class="infobox">Talk to a tutor whenever you feel like to.</div>
-       </a>
-     </figure>
-    </li>
-  </div>
-
-  <div class="list col-sm-3">
-    <li class="list__item">
-      <figure class="list__item__inner">
-        <a class="divLink" href="#">
-        <p class="vignette" style="background-image:url(https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433892622062.jpg)"></p>
-        <div class="titlebox">Any Where</div>
-        <div class="infobox">Whereever you are, we have a tutor for you</div>
-       </a>
-     </figure>
-    </li>
-  </div>
-
-</div>
-
-
-<style>
-
-#contact_form{
-  text-align: center
-}
-
-</style>
-
-<form id="contact_form" style="display:none">
-  <div class="row">
-    <label for="name">...</label><br />
-    <input placeholder="Your Name" id="name" class="input" name="name" type="text" value="" size="30" /><br />
-  </div>
-  <div class="row">
-    <label for="email">...</label><br />
-    <input placeholder="Your email" id="email" class="input" name="email" type="text" value="" size="30" /><br />
-  </div>
-  <div class="row">
-    <label for="message">...</label><br />
-    <textarea placeholder="Your question?" id="message" class="input" name="message" rows="7" cols="30"></textarea><br />
   </div>
   
-  <button id="submit_button">Send message</button>
-</form>           
+
+  <div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+      <div class="g-wrapper center">
+        <style>.g-wrapper {width: 90%;margin-left: auto;margin-right: auto;padding-left: 20px;padding-right:20px;padding-top:10px;padding-bottom:5px; background-color: #EEE0D7;border-radius: 27px;}</style>
+        <style>#wht{height:300px;}</style>
+        <div class="row" id="wht">
+           <div class="col s12 m4 try left hide-on-med-and-down" id="toShowCase">
+              <div class="row">
+                <style>.col.s12.m4.try{height:56.33%; }.card-image img{height:100%;}</style>
+                <style>.row .col.try{padding-left: 0rem; padding-right: 0rem;}</style>
+                <div class="col s12 m4 try">
+                  <div class="card card-wrapper">
+                    <div class="card-image">
+                      <img src="http://materializecss.com/images/sample-1.jpg">
+                    </div>
+                  </div>
+                </div>
+                <div class="col s12 m4 try">
+                  <div class="card card-wrapper">
+                    <div class="card-image">
+                      <img src="https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433901545750.png">
+                    </div>
+                  </div>
+                </div>
+                <div class="col s12 m4 try">
+                  <div class="card card-wrapper">
+                    <div class="card-image">
+                      <img src="https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433901367519.png">
+                    </div>
+                  </div>
+                </div>
+                <div class="col s12 m4 try">
+                  <div class="card card-wrapper">
+                    <div class="card-image">
+                      <img src="https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433901817018.JPG">
+                    </div>
+                  </div>
+                </div>
+                <div class="col s12 m4 try">
+                  <div class="card card-wrapper">
+                    <div class="card-image">
+                      <img src="https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433873406118.gif">
+                    </div>
+                  </div>
+                </div>
+                <div class="col s12 m4 try">
+                  <div class="card card-wrapper">
+                    <div class="card-image">
+                      <img src="https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433890763211.png">
+                    </div>
+                  </div>
+                </div>
+                <div class="col s12 m4 try">
+                  <div class="card card-wrapper">
+                    <div class="card-image">
+                      <img src="https://s3.amazonaws.com/langtime/558066e8ce5fff41ce460e6c1434857607177.jpg">
+                    </div>
+                  </div>
+                </div>
+                <div class="col s12 m4 try">
+                  <div class="card card-wrapper">
+                    <div class="card-image">
+                      <img src="https://s3.amazonaws.com/langtime/558066e8ce5fff41ce460e6c1434849911836.jpg">
+                    </div>
+                  </div>
+                </div>
+                <div class="col s12 m4 try">
+                  <div class="card card-wrapper">
+                    <div class="card-image">
+                      <img src="https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433901423623.png">
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+             
+           </div>
+           <div class="col s12 m12 l4 try">
+              <div class="row container">
+                <h5 class="header brown-text"><i class="mdi-navigation-arrow-back hide-on-med-and-down"></i><a href="/showcase">Your Stories</a></h5>
+                <p class="grey-text text-darken-3 lighten-3">Story telling is the way boost your speaking skills</p>
+                <h5 class="header brown-text">Our tutors<i class="mdi-navigation-arrow-forward hide-on-med-and-down"></i></h5>
+                <p class="grey-text text-darken-3 lighten-3">We will help you through conversations and mistakes</p>
+              </div>
+           </div>
+           <div class="col s12 m4 right hide-on-med-and-down" id="toTutorPage">
+              <div class="row">
+                <div class="col s12">
+                  <div class="card">
+                    <div class="card-image">
+                      <img src="https://s3.amazonaws.com/langtime/558066e8ce5fff41ce460e6c1434987855316.png">
+                    </div>
+                  </div>
+                </div>
+              </div>
+           </div>
+        </div>       
+
+      </div>
+    </div>
+    <div class="parallax">
+      <img src="https://s3.amazonaws.com/langtime/558066e8ce5fff41ce460e6c1434849915984.jpg" alt="Unsplashed background img 2">
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="section">
+
+      <div class="row">
+        <div class="col s12 center">
+          <h3><i class="mdi-content-send brown-text"></i></h3>
+          <h4>About Us</h4>
+          <p class="center-align light"><span class="">We are here to defy any traditional learning approach, and give your a whole new experience of learning a new language by using it, having fun with it, and being good at it.</span></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <div class="row center">
+          <h5 class="header col s12 light">It's a new way that many will follow behind you.</h5>
+        </div>
+      </div>
+    </div>
+    <div class="parallax"><img src="https://s3.amazonaws.com/langtime/558066e8ce5fff41ce460e6c1434849121461.jpg" alt="Unsplashed background img 3"></div>
+  </div>
+
+
+  <style>
+
+    p {
+      line-height: 2rem;
+    }
+
+    .button-collapse {
+      color: #26a69a;
+    }
+
+    .parallax-container {
+      min-height: 380px;
+      line-height: 0;
+      height: auto;
+      color: rgba(255,255,255,.9);
+    }
+    .parallax-container .section {
+      width: 100%;
+    }
+
+    .parallax-container.valign-wrapper{
+      min-height:500px;
+    }
+    @media only screen and (max-width : 992px) {
+      .parallax-container .section {
+        position: absolute;
+        top: 40%;
+      }
+      #index-banner .section {
+        top: 10%;
+      }
+    }
+
+    @media only screen and (max-width : 600px) {
+      #index-banner .section {
+        top: 0;
+      }
+    }
+
+
+    .icon-block {
+      padding: 0 15px;
+    }
+
+  </style>
+
+
+  <footer class="page-footer teal">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Organization Bio</h5>
+          <p class="grey-text text-lighten-4">LangTime is originated from Purdue University, IN, U.S.. Our mission is to connect the world with one language: English</p>
+        </div>
+        <div class="col l4 offset-l2 s12">
+          <h5 class="white-text">Related</h5>
+          <ul>
+            <li><a class="grey-text text-lighten-3" href="/showcase">Showcase</a></li>
+            <li><a class="grey-text text-lighten-3" href="/demo">Purdue Demo</a></li>
+            <!-- <li><a class="grey-text text-lighten-3" href="#">Purdue Official Club</a></li> -->
+            <!-- <li><a class="grey-text text-lighten-3" href="#!" id="contactForm">Contact</a></li> -->
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      © 2015 Copyright LangTime
+      <!-- <a class="grey-text text-lighten-4 right" href="#!">LangTime</a> -->
+      </div>
+    </div>
+  </footer>
+  <style>
+    footer.page-footer {
+      margin: 0;
+    }
+  </style>
+
+
+
+
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+         <div class="row">
+            <form class="col s12">
+              <div class="row">
+                <div class="input-field col s12 m6">
+                  <i class="mdi-action-account-circle prefix"></i>
+                  <input id="icon_prefix" type="text" class="validate">
+                  <label for="icon_prefix">Full Name</label>
+                </div>
+                <div class="input-field col s12 m6">
+                  <i class="mdi-communication-email prefix"></i>
+                  <input id="icon_email" type="email" class="validate">
+                  <label for="icon_email">Email</label>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="row">
+            <form class="col s12">
+              <div class="row">
+                <div class="input-field col s12">
+                  <i class="mdi-editor-mode-edit prefix"></i>
+                  <textarea id="icon_prefix2" class="materialize-textarea"></textarea>
+                  <label for="icon_prefix2">Question, or anything</label>
+                </div>
+              </div>
+            </form>
+          </div>
+    </div>
+    <div class="modal-footer">
+      <a class="waves-effect waves-light btn modal-action modal-close"><i class="mdi-content-send left"></i>Send</a>
+    </div>
+  </div>
+ 
+ <!-- Modal Trigger -->
+  <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-large cyan modal-trigger" href="#modal1">
+      <i class="large mdi-communication-quick-contacts-mail"></i>
+    </a>
+  </div> 
+
+          
+<script>
+ $(document).ready(function(){
+    $('.modal-trigger').leanModal({
+      dismissible: true,
+      opacity: .5,
+      in_duration: 300,
+      out_duration: 200,  
+      complete: function() {
+          var mes={
+            name:$("#name").val(),
+            email:$("#email").val(),
+            message:"not sure if actually sent...",
+            sub:"Clicked"
+          };
+          socket.emit("contactMe",mes)
+      } 
+    });
+    $('#send').click(function(){
+          var mes={
+            name:$("#name").val(),
+            email:$("#email").val(),
+            message:$("#message").val(),
+            sub:"user question"
+          };
+          socket.emit("contactMe",mes);
+          alert('message sent');
+    })
+  });
+</script>
+
+<!-- input control -->
 
 <script>
+  userId="558066e8ce5fff41ce460e6c"
+  pickerUserId=$("#pickerUserId").html();
+
+  localStorage.userId=pickerUserId;
+  var cardFrom = "";
+  var imageFile;
+  var reader;
+  var socket = io();
+  var smallestCard=Date.now();
+
   $(document).ready(function(){
-      var socket = io();
-      $("#submit_button").click(function(){
-        var mes={
-          name:$("#name").val(),
-          email:$("#email").val(),
-          message:$("#message").val(),
-          sub:"user question"
-        };
-        socket.emit("contactMe",mes)
-        alert('message sent')
-      })
-
-
+  
+  $("#class").click(function(){
+    window.location.href="/class"
   })
 
-$(document).ready(function(){
+  var initialLoad;
+  enableNewCard();
 
-  $('#contact_form').popup({
-    opacity: 0.5,
-    transition: '0.3s',
-    scrolllock: true,
-    onclose: function() {
-      
-    }
+  $("#upload").click(function(){
+    $("#files").click()
   });
 
-
-  $("#contactForm").click(function(){
-    $("#contact_form").popup("show");
+  socket.on("newCard"+userId,function(card){
+    console.log("displayNewCard called")
+    alert("new Card created for you")
+    // displayNewCard(card)
+    setTimeout(newRound(),0);
   })
-  
-})
 
+
+  $("#imageUrl").on("change",function(){
+    var b=$("#imageUrl").val();
+    if(b.length>=200){alert("The link you selected is too long.")}
+    if(b&&b.length<=200){
+      secondStepFrom("url");
+    }
+    $("#holder").find("img").attr("src",$("#imageUrl").val())
+  })
+
+
+  indexBanner.ondragover = function () { return false; };
+  indexBanner.ondragend = function () { return false; };
+  indexBanner.ondrop = function (e) {
+    e.preventDefault();
+    var file = e.dataTransfer.files[0];
+    imageFile = file;
+    if(checkValid()=="invalid"){return}
+    reader = new FileReader();
+    reader.onload = function (event) {
+      secondStepFrom("drop");
+      $("#holder").find("img").attr("src",event.target.result)
+    };
+    reader.readAsDataURL(file);
+    return false;
+  };
+
+
+  $("#files").on('change',function(){
+    var x = document.getElementById ("files");
+    var file=x.files[0];
+    imageFile = file;
+    if(checkValid()=="invalid"){return}
+    preViewer = new FileReader();
+    preViewer.onload=(function(event){
+      secondStepFrom("files");
+      $("#holder").find("img").attr("src",event.target.result)
+    });
+    preViewer.readAsDataURL(file);
+  })
+
+  $("#startOver").click(function(){
+    newRound();
+  })
+
+
+
+  })
+
+  // end of $(document).ready()
+
+  function checkValid(){
+    var ext = imageFile.name.split('.').pop().toLowerCase();
+    if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+      $("#files").replaceWith('<input type="file" id="files" name="file">');
+      $("#newCard").attr('disabled',"true");
+      alert('invalid image type. only images please');
+      return "invalid";
+    }
+  }
+
+  function secondStepFrom(where){
+    cardFrom = where;
+    switch(where){
+      case "drop":
+        $("#files").hide();
+        $("#imageUrl").hide();
+        break;
+      case "url":
+        $("#imageUrl").hide();
+        $("#files").hide();
+        break;
+      case "files":
+        $("#imageUrl").hide();
+        $("#files").hide()
+        break;
+    };
+    $("#contentInputZone").hide();
+    $("#inputControlZone").show();
+  }
+
+
+  function enableNewCard(){
+    $("#newCard").click(function(){
+      // alert("once")
+      $("#newCard").off("click")
+      switch(cardFrom){
+        case "url":
+          imageFromUrl();
+          break;
+        case "drop":
+          imageFromDrop_Files();
+          break;
+        case "files":
+          imageFromDrop_Files();
+          break;
+      }
+    })
+  }
+
+
+
+
+  function imageFromUrl(){
+    cardInfo={
+      userId:"558066e8ce5fff41ce460e6c",
+      createdAt: Date.now(),
+      imageUrl : $("#imageUrl").val(),
+      keyWord0 : $("#keyWord0").val(),
+      keyWord1 : $("#keyWord1").val(),
+      keyWord2 : $("#keyWord2").val(),
+      note0:"notes from tutor",
+      note1:"notes from tutor",
+      note2:"notes from tutor"
+    };
+    socket.emit("newCard", cardInfo);
+  }
+
+  function imageFromDrop_Files(evt){
+    reader = new FileReader();
+    reader.readAsArrayBuffer(imageFile);
+
+    reader.onerror = errorHandler;
+    reader.onloadstart = function(e) {
+      console.log("onloadstart")
+    }
+    reader.onload=(function(evt){
+      var s3Extension = imageFile.name.split('.').pop();
+      var d = new Date();
+      time=d.getTime();
+      var key = "558066e8ce5fff41ce460e6c" + time+"."+s3Extension;
+      imageData={
+        body:evt.target.result,
+        contentType:s3Extension,
+        userId:"558066e8ce5fff41ce460e6c",
+        time:time,
+        key:key
+      };
+      cardInfo={
+        userId:"558066e8ce5fff41ce460e6c",
+        createdAt: Date.now(),
+        imageUrl : $("#imageUrl").val(),
+        keyWord0 : $("#keyWord0").val(),
+        keyWord1 : $("#keyWord1").val(),
+        keyWord2 : $("#keyWord2").val(),
+        note0:"notes from tutor",
+        note1:"notes from tutor",
+        note2:"notes from tutor"
+      };
+      
+      socket.emit('data',[imageData,cardInfo]);
+    })
+  }
+
+  function errorHandler(evt) {
+    switch(evt.target.error.code) {
+      case evt.target.error.NOT_FOUND_ERR:
+        alert('File Not Found!');
+        break;
+      case evt.target.error.NOT_READABLE_ERR:
+        alert('File is not readable');
+        break;
+      case evt.target.error.ABORT_ERR:
+        break; // noop
+      default:
+        alert('An error occurred reading this file.');
+    };
+  }
+
+
+  function newRound(){
+    enableNewCard()
+    $("#imageUrl").show();
+    $("#inputControlZone").hide();
+    $("#contentInputZone").show();
+    $("#holder").find("img").attr("src","https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433901367519.png")
+    $("#files").val('');
+    $("#imageUrl").val('');
+  }
 
 </script>
+
 
 
 
@@ -225,7 +648,4 @@ $(document).ready(function(){
     </script>
 
 
-
 </body>
-
-</html>
