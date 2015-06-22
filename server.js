@@ -51,9 +51,9 @@ var Card = database.Card;
 var User = database.User;
 var Story = database.Story;
 var Firebase = require("firebase");
-var Fire = new Firebase("https://langtimedev.firebaseio.com/")
+// var Fire = new Firebase("https://langtimedev.firebaseio.com/")
 
-// var Fire = new Firebase("https://langtime002.firebaseio.com")
+var Fire = new Firebase("https://langtime002.firebaseio.com")
 
 
 

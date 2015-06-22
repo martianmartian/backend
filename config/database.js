@@ -1,10 +1,10 @@
 var bcrypt = require('bcrypt-nodejs')
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-mongoose.connect("mongodb://localhost:27017/langtime2")
+// mongoose.connect("mongodb://localhost:27017/langtime2")
 
 
-// mongoose.connect("mongodb://iamwave007:1111@novus.modulusmongo.net:27017/qez6Izah");
+mongoose.connect("mongodb://iamwave007:1111@novus.modulusmongo.net:27017/qez6Izah");
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
