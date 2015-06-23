@@ -7,12 +7,12 @@ mongoose.connect("mongodb://iamwave007:1111@novus.modulusmongo.net:27017/qez6Iza
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-// mongoose.connect("mongodb://iamwave007:0000@apollo.modulusmongo.net:27017/ubuve8Qy")
 
 //only one or two story on each card
 // card be default don't need to store story id. 
 // search story by card id instead. upper lever priority
 
+// mongoose.connect("mongodb://iamwave007:0000@apollo.modulusmongo.net:27017/ubuve8Qy")
 
 //http://stackoverflow.com/questions/7552804/changing-schemas-in-mongodb-mongoose
 var cardSchema = new Schema({
