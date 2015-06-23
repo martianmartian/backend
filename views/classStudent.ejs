@@ -1,7 +1,6 @@
 <head>
 <script src="./lib/jquery-1.11.1.min.js"></script>
 <script src="./lib/socket.io.js"></script>
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
 <link rel="stylesheet" href="./stylesheets/class.css">
@@ -18,54 +17,62 @@
 </head>
 
 <body>
-
-
-
+<div id="userId" style="display:none"><%=userId%></div>
 <nav class="blue lighten-5">
-  
-  <ul class="left hide-on-med-and-down blue">
+  <style>#allStories, #oneStory{display: none;}</style>
+  <ul class="left  blue">
     <li id="currentStory"><a href="#!" >Current Story</a></li>
     <li id="allStories"><a href="#!" >All Stories</a></li>
   </ul>
-
-  <ul class="right hide-on-med-and-down red" >
+  <ul class="right red" >
     <li id="leave"><a href="#!">Leave Session</a></li>
   </ul>
-
 </nav>
-<style>
-#allStories, #oneStory{
-  display: none;  
-}
 
-</style>
+<style>#oneOfMyCard{padding-top: 60px}</style>
+  <div id="oneOfMyCard" class="row">
+    <div id="panel" class="row">
+      <div class="col s12">
+        <ul>
+          <a href="#!" class="btn" id="bigger" ><i class="mdi-navigation-arrow-back left"></i></a>
+          <a href="#!" class="btn" id="shareThis">Share</a>
+          <a href="#!" class="btn" id="smaller"><i class="mdi-navigation-arrow-forward right"></i></a>
+        </ul>
+      </div>
+    </div>
+    <div class="card col s12">
+      <div class="card-image waves-effect waves-block waves-light">
+        <img class="activator" src="http://materializecss.com/images/office.jpg">
+        <span id="originalId"></span>
+      </div>
+    </div>
+  </div>
+
+
 <script>
-var socket = io();
-var userId=localStorage.userId;
 
 $(document).ready(function(){
+  var socket = io();
+  var userId=$("#userId").html();
+  var currentCardDate=Date.now();
+
   $("#allStories").click(function(){
     $("#allStories").hide();
     $("#oneStory").hide();
-    $("#everyone").show();
+    $("#oneOfMyCard").show();
     $("#currentStory").show()
   });
   $("#currentStory").click(function(){
     $("#allStories").show();
     $("#oneStory").show();
-    $("#everyone").hide();
+    $("#oneOfMyCard").hide();
     $("#currentStory").hide()
   });
   $("#leave").click(function(){
-    // localStorage.roomNum="undefined";
-    // localStorage.tutorId="undefined";
     window.location.href="/learn";
   });
 
 
-// initial loading cards
-  // small == new, recent
-  var currentCardDate=Date.now();
   socket.emit("oneSmallerCard",[userId,currentCardDate])
 
   socket.on("oneSmallerCard"+userId,function(cards){
@@ -81,206 +88,16 @@ $(document).ready(function(){
     socket.emit("oneBiggerCard",[userId,currentCardDate])
   })
   function displayCard(card){
-    $("#topLeftCard").find("img")[0].src=card.imageUrl;
-    $("#topLeftCard").find("img")[0].id=card._id;
-    $("#topLeftCard").find("span")[0].id=card.userId;
+    $("#oneOfMyCard").find("img")[0].src=card.imageUrl;
+    $("#oneOfMyCard").find("img")[0].id=card._id;
+    $("#oneOfMyCard").find("span")[0].id=card.userId;
     currentCardDate=card.createdAt;
   };
 
-
-
 })
 
-
 </script>
 
-
-<div class="row" id="everyone">
-  <div class="col s12 m5 grey lighten-4 z-depth-1" >
-        <div class="col s12 m2 " >
-              <div class="card small">
-                <div style="height:20%" id="bigger">
-                  <a class="waves-effect waves-light btn-large green" id="arrow"><i class="mdi-navigation-arrow-back"></i></a>
-                </div>
-                <div style="height:60%" id="avatar">
-                  <img src="https://s3.amazonaws.com/langtime/54ca2c11d1afc1612871624a1434302813160.png" style="height:100%">
-                </div>
-                <div style="height:20%" id="smaller">
-                  <a class="waves-effect waves-light btn-large green" id="arrow"><i class="mdi-navigation-arrow-forward"></i></a>
-                </div>
-              </div>
-        </div>
-        
-        <div class="col s12 m8 materialboxed">
-                <div class="card" id="topLeftCard">
-                  <div class="card-image waves-effect waves-block waves-light">
-                    <img id='cardId' src="https://s3.amazonaws.com/langtime/54ca2c11d1afc1612871624a1424845460689.jpg">
-                  </div>
-                  <div class="card-content">
-                    <span id="d" class="card-title activator grey-text text-darken-4">Smile :-) <i class="mdi-image-filter-1 right"></i></span>
-                  </div>
-                </div>
-        </div>
-  </div>
-      <!-- mid session -->
-  <div class="col s12 m2 grey lighten-2" id="div1">
-<!--     <div id="studentSelect">
-      <a class="waves-effect waves-light btn blue lighten-1 id='select1'">Student 1</a>
-      <a class="waves-effect waves-light btn blue lighten-1 id='select2'">Student 2</a>
-      <a class="waves-effect waves-light btn blue lighten-1 id='select3'">Student 3</a>
-      <a class="waves-effect waves-light btn blue lighten-1 id='select4'">Student 4</a>
-    </div> -->
-    <div id="shareThis">
-      <a class="waves-effect waves-light btn deep-purple lighten-2" id="tutorPower"><i class="mdi-file-cloud left"></i>Share</a>
-    </div>
-  </div>
-
-  <div class="col s12 m5 grey lighten-4 z-depth-1 right" >
-    
-      <!-- <div class="col s12 m2 right" id="m2">
-
-            <div class="card small">
-              <div style="height:20%">
-                <a class="waves-effect waves-light btn-large green" id="arrow"><i class="mdi-navigation-arrow-forward"></i></a>
-              </div>
-              <div style="height:60%" id="avatar">
-                <img src="https://s3.amazonaws.com/langtime/54ca2c11d1afc1612871624a1434302813160.png" style="height:100%">
-              </div>
-              <div style="height:20%">
-                <a class="waves-effect waves-light btn-large green" id="arrow"><i class="mdi-navigation-arrow-back"></i></a>
-              </div>
-            </div>
-      </div>
-      <div class="col s12 m8 right materialboxed">
-              <div class="card" id="topRightCard">
-                <div class="card-image waves-effect waves-block waves-light">
-                  <img class="activator" src="http://materializecss.com/images/office.jpg">
-                </div>
-                <div class="card-content">
-                  <span class="card-title activator grey-text text-darken-4">Dummy <i class="mdi-image-filter-2 right"></i></span>
-                </div>
-              </div>
-      </div> -->
-  </div>
-
-  <div class="col s12 m5 grey lighten-4 z-depth-1" >
- <!--    <div class="col s12 m2 " id="m2">
-            <div class="card small">
-              <div style="height:20%">
-                <a class="waves-effect waves-light btn-large green" id="arrow"><i class="mdi-navigation-arrow-back"></i></a>
-              </div>
-              <div style="height:60%" id="avatar">
-                <img src="https://s3.amazonaws.com/langtime/54ca2c11d1afc1612871624a1434302813160.png" style="height:100%">
-              </div>
-              <div style="height:20%">
-                <a class="waves-effect waves-light btn-large green" id="arrow"><i class="mdi-navigation-arrow-forward"></i></a>
-              </div>
-            </div>
-      </div>
-      
-        <div class="col s12 m8 materialboxed">
-                <div class="card" id="bottomLeftCard">
-                  <div class="card-image waves-effect waves-block waves-light">
-                    <img class="activator" src="http://materializecss.com/images/office.jpg">
-                  </div>
-                  <div class="card-content">
-                    <span class="card-title activator grey-text text-darken-4">Dummy <i class="mdi-image-filter-3 right"></i></span>
-                  </div>
-                </div>
-        </div> -->
-  </div>
-
-
-        <!-- mid zone -->
-<!--   <div class="col s12 m2 grey lighten-2" id="div2">
-
-  </div>
-
-  <div class="col s12 m5 grey lighten-4 z-depth-1 right" >
- -->
-     <!--  <div class="col s12 m2 right" id="m2">
-            <div class="card small">
-              <div style="height:20%">
-                <a class="waves-effect waves-light btn-large green" id="arrow"><i class="mdi-navigation-arrow-forward"></i></a>
-              </div>
-              <div style="height:60%" id="avatar">
-                <img src="https://s3.amazonaws.com/langtime/54ca2c11d1afc1612871624a1434302813160.png" style="height:100%">
-              </div>
-              <div style="height:20%">
-                <a class="waves-effect waves-light btn-large green" id="arrow"><i class="mdi-navigation-arrow-back"></i></a>
-              </div>
-            </div>
-      </div>
-
-      <div class="col s12 m8 right materialboxed">
-              <div class="card" id="bottomRightCard">
-                <div class="card-image waves-effect waves-block waves-light">
-                  <img class="activator" src="http://materializecss.com/images/office.jpg">
-                </div>
-                <div class="card-content">
-                  <span class="card-title activator grey-text text-darken-4">Dummy <i class="mdi-image-filter-4 right"></i></span>
-                </div>
-              </div>
-      </div>
- -->
-  </div>
-
-  </div>
-
-</div>
-
-
-<script>
-$(document).ready(function(){
-  $('.materialboxed').materialbox();
-
-  function studyCard(card){
-    $("#currentStory").trigger("click")
-    $("#studyCard").find("img")[0].src=card.imageUrl;
-    $("#studyCard").find("img")[0].id=card._id;
-    $("#note0").find("p").html(card.note0)
-    $("#note1").find("p").html(card.note1)
-    $("#note2").find("p").html(card.note2)
-  };
-  socket.on("shareThis",function(data){
-    studyCard(data);
-  })
-  $("#shareThis").click(function(){
-    var someId=$("#topLeftCard").find("img")[0].id
-    socket.emit("shareThis",[someId])
-  })
-  //tutor do this??? student???
-  $("#tutorUpdate").click(function(){
-    var updateInfo = {
-      _id:$("#studyCard").find("img")[0].id,
-      note0:$("#note0").find("p").html(),
-      note1:$("#note1").find("p").html(),
-      note2:$("#note2").find("p").html()
-    }
-    socket.emit("tutorUpdate",updateInfo);
-  })
-
-  $("#studyCard span").click(function(){
-    // console.log()
-    if(userId!=$("#oneStory").find("img")[0].id){
-      cardInfo={
-        userId:userId,
-        createdAt: Date.now(),
-        imageUrl : $("#oneStory").find("img")[0].src,
-        note0:$("#note0").find("p").html(),
-        note1:$("#note1").find("p").html(),
-        note2:$("#note2").find("p").html()
-      };
-      socket.emit("newCard", cardInfo);
-    }
-  })
-
-
-
-
-
-});
-</script>
 
 <div class="row" id="oneStory">
       <div class="col s12 m7">
@@ -298,15 +115,15 @@ $(document).ready(function(){
 
           <ul class="collapsible" data-collapsible="accordion">
             <li id="note0">
-              <div class="collapsible-header"><i class="mdi-image-filter-drama"></i>First</div>
+              <div class="collapsible-header"><i class="mdi-image-filter-drama"></i>First Time</div>
               <div class="collapsible-body"><p contenteditable="true">Smile :-)</p></div>
             </li>
             <li id="note1">
-              <div class="collapsible-header"><i class="mdi-maps-place"></i>Second</div>
+              <div class="collapsible-header"><i class="mdi-maps-place"></i>Second Time</div>
               <div class="collapsible-body"><p contenteditable="true">Smile :-)</p></div>
             </li>
             <li id="note2">
-              <div class="collapsible-header"><i class="mdi-social-whatshot"></i>Third</div>
+              <div class="collapsible-header"><i class="mdi-social-whatshot"></i>Third Time</div>
               <div class="collapsible-body"><p contenteditable="true">Smile :-)</p></div>
             </li>
           </ul>
@@ -338,4 +155,57 @@ $(document).ready(function(){
       </div>
 </div>
 
+<script>
+$(document).ready(function(){
+  $('.materialboxed').materialbox();
+  var socket = io();
+  function studyCard(card){
+    $("#currentStory").trigger("click")
+    $("#studyCard").find("img")[0].src=card.imageUrl;
+    $("#studyCard").find("img")[0].id=card._id;
+    $("#note0").find("p").html(card.note0)
+    $("#note1").find("p").html(card.note1)
+    $("#note2").find("p").html(card.note2)
+  };
 
+  socket.on("shareThis",function(data){
+    studyCard(data);
+  })
+  $("#shareThis").click(function(){
+    var someId=$("#oneOfMyCard").find("img")[0].id
+    socket.emit("shareThis",[someId])
+  })
+  //tutor do this??? student???
+  $("#tutorUpdate").click(function(){
+    var updateInfo = {
+      _id:$("#studyCard").find("img")[0].id,
+      note0:$("#note0").find("p").html(),
+      note1:$("#note1").find("p").html(),
+      note2:$("#note2").find("p").html()
+    }
+    socket.emit("tutorUpdate",updateInfo);
+  })
+
+  $("#studyCard span").click(function(){
+    if(userId!=$("#oneStory").find("img")[0].id){
+      cardInfo={
+        userId:userId,
+        createdAt: Date.now(),
+        imageUrl : $("#oneStory").find("img")[0].src,
+        note0:$("#note0").find("p").html(),
+        note1:$("#note1").find("p").html(),
+        note2:$("#note2").find("p").html()
+      };
+      socket.emit("newCard", cardInfo);
+    }
+  })
+
+
+
+
+
+});
+</script>
+
+
+</body>

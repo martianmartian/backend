@@ -193,14 +193,6 @@ function generate_xml_sitemap(){
   });
 
 
-  app.get("/demo",function(req,res){
-    if(!req.isAuthenticated()){
-      res.render('purdue-langtime-on-campus-demo.ejs',{userId:"558066e8ce5fff41ce460e6c"})
-    }else{
-      res.render('purdue-langtime-on-campus-demo.ejs',{userId:req.user._id})
-    }
-  })
-
 
 
   router.route('/login')
@@ -340,44 +332,57 @@ function generate_xml_sitemap(){
       }
     })
 
-  // router.route('/class')
-  //   .get(function(req,res){
-  //     if(req.user.local.isTutor){
-  //       res.render("classTutor.ejs",{
-  //         tutorId: req.user._id,
-  //         tutorName:req.user.local.tutorName
-  //       })
-  //     }
-  //     else if(req.user.local.isUser){
-  //       res.render('classStudent.ejs',{
-  //       userId: req.user._id,
-  //       userName:req.user.local.userName,
-  //       userEmail:req.user.local.email
-  //     });
-  //     }
-  //   })
+  // app.get("/demo",function(req,res){
+  //   if(!req.isAuthenticated()){
+  //     res.render('purdue-langtime-on-campus-demo.ejs',{userId:"558066e8ce5fff41ce460e6c"})
+  //   }else{
+  //     res.render('purdue-langtime-on-campus-demo.ejs',{userId:req.user._id})
+  //   }
+  // })
 
-    app.get("/class",function(req,res){
-      if(req.isAuthenticated()){
-          if(req.user.local.isTutor){
-            res.render("classTutor.ejs",{
-              tutorId: req.user._id,
-              tutorName:req.user.local.tutorName
-            })
-          }
-          else if(req.user.local.isUser){
-            res.render('classStudent.ejs',{
+  app.get("/demo",function(req,res){
+    if(req.isAuthenticated()){
+        if(req.user.local.isTutor){
+          res.render("purdue-langtime-on-campus-demo.ejs",{
             userId: req.user._id,
-            userName:req.user.local.userName,
-            userEmail:req.user.local.email
-          });
-      }
-      }else{
-        res.render("classStudent",{
-          userId:"558066e8ce5fff41ce460e6c"
-        })
-      }
-    })
+            userName:req.user.local.userName
+          })
+        }
+        else if(req.user.local.isUser){
+          res.render('purdue-langtime-on-campus-demo.ejs',{
+          userId: req.user._id,
+          userName:req.user.local.userName,
+          userEmail:req.user.local.email
+        });
+    }
+    }else{
+      res.render("purdue-langtime-on-campus-demo.ejs",{
+        userId:"558066e8ce5fff41ce460e6c",
+        userName:"LangTime Learner"
+      })
+    }
+  })
+
+  app.get("/class",function(req,res){
+    if(req.isAuthenticated()){
+        if(req.user.local.isTutor){
+          res.render("classStudent.ejs",{
+            userId: req.user._id
+          })
+        }
+        else if(req.user.local.isUser){
+          res.render('classStudent.ejs',{
+          userId: req.user._id,
+          userName:req.user.local.userName,
+          userEmail:req.user.local.email
+        });
+    }
+    }else{
+      res.render("classStudent.ejs",{
+        userId:"558066e8ce5fff41ce460e6c"
+      })
+    }
+  })
 
 
 

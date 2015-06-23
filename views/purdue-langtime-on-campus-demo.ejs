@@ -12,11 +12,11 @@
 
 
 <body class="grey lighten-3">
-
+  
   <nav class="grey lighten-3">
     <div class="nav-wrapper">
       <a href="#!" class="brand-logo"><img src="https://s3.amazonaws.com/langtime/552cc5cb35dd945413007c5e1433873406118.gif" alt=""></a>
-      <a href="#!" id="orangeLogo" class="brand-logo center hide-on-med-and-down">Best-ish Spoken English Training</a>
+      <a href="#!" id="orangeLogo" class="brand-logo center hide-on-med-and-down">Welcome,  <span id="userName"><%=userName%></span> !</a>
       <style>#orangeLogo{color:orange;}</style>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
       <ul class="right hide-on-med-and-down">
@@ -31,57 +31,44 @@
       </ul>
     </div>
   </nav>
+  <div class="row" id="added" >
+      <script id="studentCard" type="text/x-handlebars-template">
+              <div class="col s12 m3 l3 ">
+                <div class="card">
+                  <div class="card-image waves-effect waves-block waves-light">
+                    <img class="activator" id="{{cardId}}" src="{{imageUrl}}">
+                  </div>
+                  <div id="notes">
+                    <p id="note0">{{note0}}</p>
+                    <p id="note1">{{note1}}</p>
+                    <p id="note2">{{note2}}</p>
+                  </div>
+                </div>
+              </div>
+      </script>
+  </div>
+
+
+
+
+<style>.s12.m3{height:10em;}.s12.m3 img{height: 100%}</style>
 
   <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-    <a class="btn-floating btn-large red">
-      <i class="large mdi-editor-mode-edit"></i>
-    </a>
+    <a class="btn btn-large cyan" id="collectButton">Collect</a>
     <ul>
-      <li><a class="btn-floating red" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="large mdi-editor-insert-chart"></i></a></li>
-      <li><a class="btn-floating yellow darken-1" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="large mdi-editor-format-quote"></i></a></li>
-      <li><a class="btn-floating green" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="large mdi-editor-publish"></i></a></li>
-      <li><a class="btn-floating blue" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="large mdi-editor-attach-file"></i></a></li>
+      <li><a class="btn red" style="display:none" id="claimButton">Claim</a></li>
     </ul>
   </div> 
 
 
 
-      <div class="row">
-        <div id="added" class="col s12 hide-on-med-and-down"></div>
-      </div>
 
-<style>
-.s12.hide-on-med-and-down{
-  height:10em;
-}
-
-.s12.hide-on-med-and-down img{
-  height: 100%
-}
-</style>
-
-<script id="studentCard" type="text/x-handlebars-template">
-      
-        <div class="col s6 m3 l3 materialboxed">
-          <div class="card">
-            <div class="card-image waves-effect waves-block waves-light ">
-              <img class="responsive-img " src="{{imageUrl}}">
-              
-            </div>
-          </div>
-        </div>
-</script>
-<!-- 
-√ default userId;
-√ add specific userId if directed from their account. 
-√ enable go to class right away from this page:! mixed for now. 
- student login, then come back to pick their card -->
 <div id="pickerUserId" style="display:none"><%=userId%></div>
-
+<style>.collected{  border: solid 7px orange;}</style>
 <script>
-  userId="558066e8ce5fff41ce460e6c"
-  pickerUserId=$("#pickerUserId").html();
-
+  
+  var userId="558066e8ce5fff41ce460e6c"
+  var pickerUserId=$("#pickerUserId").html();
   localStorage.userId=pickerUserId;
   var cardFrom = "";
   var imageFile;
@@ -90,231 +77,65 @@
   var smallestCard=Date.now();
 
 $(document).ready(function(){
-  
-  var initialLoad;
-  enableNewCard();
-
-
-    socket.emit("sixSmallerCards",[userId,smallestCard,userId])
-    // socket.emit("sixSmallerCards",[userId,smallestCard,userId])
-
-    socket.on("sixSmallerCards"+userId,function(cards){
-      displayCards(cards)
-    })
-
-  $("#class").click(function(){
-    window.location.href="/class"
+  $('.modal-trigger').leanModal();
+  socket.emit("sixSmallerCards",[userId,smallestCard,userId])
+  socket.on("sixSmallerCards"+userId,function(cards){
+    displayCards(cards)
   })
-
   $(".button-collapse").sideNav();
-  $('.materialboxed').materialbox();
-  $("#holder").click(function(){
-    $("#files").click()
-  });
+  if(userId!=pickerUserId){
+     // $('.materialboxed').materialbox();
+  }
 
-  socket.on("newCard"+userId,function(card){
-    displayNewCards(card)
-    setTimeout(newRound(),0);
+  $("#collectButton").click(function(){
+    $("#claimButton").show();
+    $(".card").click(function(){
+      $(this).toggleClass("collected")
+    })
   })
-
-
-  $("#imageUrl").on("change",function(){
-    var b=$("#imageUrl").val();
-    if(b.length>=200){alert("The link you selected is too long.")}
-    if(b&&b.length<=200){
-      secondStepFrom("url");
-    }
-    $("#holder").find("img").attr("src",$("#imageUrl").val())
-  })
-
-
-  holder.ondragover = function () { this.className = 'hover'; return false; };
-  holder.ondragend = function () { this.className = ''; return false; };
-  holder.ondrop = function (e) {
-    this.className = 'card-image waves-effect waves-block waves-light';
-    e.preventDefault();
-    var file = e.dataTransfer.files[0];
-    imageFile = file;
-    if(checkValid()=="invalid"){return}
-    reader = new FileReader();
-    reader.onload = function (event) {
-      secondStepFrom("drop");
-      $("#holder").find("img").attr("src",event.target.result)
-    };
-    reader.readAsDataURL(file);
-    return false;
-  };
-
-
-  $("#files").on('change',function(){
-    var x = document.getElementById ("files");
-    var file=x.files[0];
-    imageFile = file;
-    if(checkValid()=="invalid"){return}
-    preViewer = new FileReader();
-    preViewer.onload=(function(event){
-      secondStepFrom("files");
-      $("#holder").find("img").attr("src",event.target.result)
+  $("#claimButton").click(function(){
+    $("#claimButton").hide();
+    $(".card").off("click");
+    $.each($(".collected"),function(i,val){
+        cardInfo={
+          userId:pickerUserId,
+          createdAt: Date.now(),
+          imageUrl : $(val).find("img")[0].src,
+          note0:$(val).find("#note0").html(),
+          note1:$(val).find("#note1").html(),
+          note2:$(val).find("#note2").html()
+        };
+        socket.emit("newCard", cardInfo);
     });
-    preViewer.readAsDataURL(file);
-  })
+    alert("You have collected your own cards");
 
-  $("#startOver").click(function(){
-    newRound();
   })
-
 
 
 })
 
-// end of $(document).ready()
-
   function displayCards(cards){
     cards.forEach(function(ele){
-      displayNewCards(ele);
-    })
+      displayNewCard(ele);
+    });
+    $('.materialboxed').materialbox();
   }
 
-  function displayNewCards(card){
+  function displayNewCard(card){
+
     var cardSource   = $("#studentCard").html();
     var cardTemplate = Handlebars.compile(cardSource);
     var cardInfo  = {
-      imageUrl : card.imageUrl
+      imageUrl : card.imageUrl,
+      cardId:card._id,
+      note0:card.note0,
+      note1:card.note1,
+      note2:card.note2
     };
     $('#added').prepend(cardTemplate(cardInfo));
-    $('.materialboxed').materialbox();
     if(card.createdAt<smallestCard){smallestCard=card.createdAt;}
   }
 
-
-
-function checkValid(){
-  var ext = imageFile.name.split('.').pop().toLowerCase();
-  if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
-    $("#files").replaceWith('<input type="file" id="files" name="file">');
-    $("#newCard").attr('disabled',"true");
-    alert('invalid image type. only images please');
-    return "invalid";
-  }
-}
-
-function secondStepFrom(where){
-  cardFrom = where;
-  switch(where){
-    case "drop":
-      $("#files").hide();
-      $("#imageUrl").hide();
-      break;
-    case "url":
-      $("#imageUrl").hide();
-      $("#files").hide();
-      break;
-    case "files":
-      $("#imageUrl").hide();
-      $("#files").hide()
-      break;
-  };
-  $("#contentInputZone").show();
-  $("#inputControlZone").show();
-}
-
-
-function enableNewCard(){
-  $("#newCard").click(function(){
-    // alert("once")
-    $("#newCard").off("click")
-    switch(cardFrom){
-      case "url":
-        imageFromUrl();
-        break;
-      case "drop":
-        imageFromDrop_Files();
-        break;
-      case "files":
-        imageFromDrop_Files();
-        break;
-    }
-  })
-}
-
-
-
-
-function imageFromUrl(){
-  cardInfo={
-    userId:"558066e8ce5fff41ce460e6c",
-    createdAt: Date.now(),
-    imageUrl : $("#imageUrl").val(),
-    keyWord0 : $("#keyWord0").val(),
-    keyWord1 : $("#keyWord1").val(),
-    keyWord2 : $("#keyWord2").val(),
-    note0:"notes from tutor",
-    note1:"notes from tutor",
-    note2:"notes from tutor"
-  };
-  socket.emit("newCard", cardInfo);
-}
-
-function imageFromDrop_Files(evt){
-  reader = new FileReader();
-  reader.readAsArrayBuffer(imageFile);
-
-  reader.onerror = errorHandler;
-  reader.onloadstart = function(e) {
-    console.log("onloadstart")
-  }
-  reader.onload=(function(evt){
-    var s3Extension = imageFile.name.split('.').pop();
-    var d = new Date();
-    time=d.getTime();
-    var key = "558066e8ce5fff41ce460e6c" + time+"."+s3Extension;
-    imageData={
-      body:evt.target.result,
-      contentType:s3Extension,
-      userId:"558066e8ce5fff41ce460e6c",
-      time:time,
-      key:key
-    };
-    cardInfo={
-      userId:"558066e8ce5fff41ce460e6c",
-      createdAt: Date.now(),
-      imageUrl : $("#imageUrl").val(),
-      keyWord0 : $("#keyWord0").val(),
-      keyWord1 : $("#keyWord1").val(),
-      keyWord2 : $("#keyWord2").val(),
-      note0:"notes from tutor",
-      note1:"notes from tutor",
-      note2:"notes from tutor"
-    };
-    
-    socket.emit('data',[imageData,cardInfo]);
-  })
-}
-
-function errorHandler(evt) {
-  switch(evt.target.error.code) {
-    case evt.target.error.NOT_FOUND_ERR:
-      alert('File Not Found!');
-      break;
-    case evt.target.error.NOT_READABLE_ERR:
-      alert('File is not readable');
-      break;
-    case evt.target.error.ABORT_ERR:
-      break; // noop
-    default:
-      alert('An error occurred reading this file.');
-  };
-}
-
-
-function newRound(){
-  enableNewCard()
-  $("#imageUrl").show();
-  $("#inputControlZone").hide();
-  $("#holder").find("img").attr("src","http://materializecss.com/images/sample-1.jpg")
-  $("#files").val('');
-  $("#imageUrl").val('');
-}
 
 </script>
 
